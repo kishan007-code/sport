@@ -15,7 +15,7 @@ const categoryVideos = {
       thumb: "/nepwin.svg",
       time: "2025-09-29T14:30:00Z",
       viewers: "129.3k watching",
-      isLive: true,
+      isLive: false,
     },
     {
       id: "video2",
