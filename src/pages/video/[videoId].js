@@ -11,7 +11,7 @@ const videoData = {
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/SRfGzEDRlNA?si=rCDAU3atjEnLLs67", // link 1
-      "https://www.youtube.com/embed/CLCi50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
       "https://www.youtube.com/embed/SRfGzEDRlNA?si=rCDAU3atjEnLLs67", // link 3
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
     ],
@@ -31,9 +31,9 @@ const videoData = {
     title: "Al hilal game",
     // multiple sources for the same video - buttons switch between these
     sources: [
-      "https://embedsports.top/embed/alpha/nasaf-quarshi-vs-al-hilal/1", // link 1
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://embedsports.top/embed/alpha/nasaf-quarshi-vs-al-hilal/3", // link 3
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
     ],
   },
@@ -59,14 +59,20 @@ const videoData = {
   },
   // add other videoId entries as needed
 };
-
 export default function VideoPage() {
-  const router = useRouter();
+    const router = useRouter();
   const { videoId } = router.query;
 
   const [selectedSourceIndex, setSelectedSourceIndex] = useState(0);
   const [theaterMode, setTheaterMode] = useState(false);
-    const [currentUrl, setCurrentUrl] = useState("http://localhost:3000/video/video1");   // add the URL
+    const [currentUrl, setCurrentUrl] = useState("");   // add the URL
+
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    setCurrentUrl(window.location.href);
+  }
+}, [router.asPath]);
+
 
 
   // donation state (you can fetch this from an API)

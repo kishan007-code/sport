@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 
 
@@ -36,7 +36,7 @@ const categoryVideos = {
   thumb: "/hilal.svg",
   time: "2025-09-29T19:30:00+05:45",  // ✅ Nepal time
   viewers: "5.1k watching",
-  isLive: true,
+  isLive: false,
 },
 
     {
@@ -52,12 +52,33 @@ const categoryVideos = {
 };
 
 export default function CategoryPage() {
+
   const router = useRouter();
   const { category } = router.query;
 
-  if (!category) return null;
+    const [clickCounts, setClickCounts] = useState({});
 
-  const videos = categoryVideos[category.toLowerCase()];
+ // Load click counts from localStorage
+  useEffect(() => {
+        if (!category) return;
+    const storedCounts = localStorage.getItem(`clickCounts_${category}`);
+    if (storedCounts) setClickCounts(JSON.parse(storedCounts));
+  }, [category]);
+
+ if (!category) return null;
+
+ const videos = categoryVideos[category.toLowerCase()];
+
+  // Handler to track video clicks
+  const handleVideoClick = (videoId) => {
+    setClickCounts(prev => {
+      const newCounts = { ...prev, [videoId]: (prev[videoId] || 0) + 1 };
+      localStorage.setItem(`clickCounts_${category}`, JSON.stringify(newCounts));
+      return newCounts;
+    });
+  };
+
+
 
   if (!videos) {
     return (
@@ -205,40 +226,46 @@ export default function CategoryPage() {
         
         {/* ====== Video Grid ====== */}
         <div className="video-grid">
-          {videos.map((video) => (
-            <Link key={video.id} href={`/video/${video.id}`} legacyBehavior>
-              <a className="video-card">
-                {video.isLive && <div className="live-badge">● LIVE</div>}
-                <div className="thumb-container">
-                  <Image
-                    src={video.thumb}
-                    alt={video.title}
-                    width={280}
-                    height={160}
-                    className="thumb-img"
-                    onError={(e) => {
-                      e.target.src = "/api/placeholder/280/160";
-                    }}
-                  />
-                  <div className="video-overlay">
-                    <span className="play-icon">▶</span>
-                  </div>
-                </div>
-                <div className="video-info">
-                  <h3 className="video-title">{video.title}</h3>
-                  {video.subtitle && (
-                    <p className="video-subtitle">{video.subtitle}</p>
-                  )}
-                  <div className="video-meta">
-                    <span className="video-time">{formatLocalTime(video.time)}</span>
-                    {video.viewers && (
-                      <span className="video-viewers">👁 {video.viewers}</span>
-                    )}
-                  </div>
-                </div>
-              </a>
-            </Link>
-          ))}
+          {videos.map((video) => {
+  const matchTime = new Date(video.time);
+  const now = new Date();
+  const isEnded = !video.isLive && now > matchTime;  // ✅ ended condition
+
+  return (
+    <Link key={video.id} href={`/video/${video.id}`} legacyBehavior>
+      <a className="video-card">
+        {video.isLive && <div className="live-badge">● LIVE</div>}
+        {isEnded && <div className="ended-badge">ENDED</div>}  {/* 👈 new badge */}
+
+        <div className="thumb-container">
+          <Image
+            src={video.thumb}
+            alt={video.title}
+            width={280}
+            height={160}
+            className="thumb-img"
+            onError={(e) => {
+              e.target.src = "/api/placeholder/280/160";
+            }}
+          />
+          <div className="video-overlay">
+            <span className="play-icon">▶</span>
+          </div>
+        </div>
+
+        <div className="video-info">
+          <h3 className="video-title">{video.title}</h3>
+          {video.subtitle && <p className="video-subtitle">{video.subtitle}</p>}
+          <div className="video-meta">
+            <span className="video-time">{formatLocalTime(video.time)}</span>
+            {video.viewers && <span className="video-viewers">👁 {video.viewers}</span>}
+          </div>
+        </div>
+      </a>
+    </Link>
+  );
+})}
+
         </div>
 
 {/* ====== BOTTOM BANNER IMAGE ====== */}
@@ -260,6 +287,8 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
       </main>
 
       <style jsx>{`
+
+       .click-count { font-size: 0.75rem; color: #888; margin-left: 5px; }
         .category-main {
           padding: 50px 5% 50px;
           min-height: 80vh;
@@ -317,6 +346,24 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
         }
 
       
+.ended-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #444;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 2;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+
 
         .video-grid {
           display: grid;
