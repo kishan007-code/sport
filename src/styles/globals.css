@@ -191,36 +191,47 @@ transition: 0.3s ease-in;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
+  width: 90%; /* increase width for mobile */
   height: 100%;
   position: relative;
 }
 
+/* Responsive slide width */
 .highlight-slide {
   position: absolute;
-  width: 50%;
+  width: 50%;   /* default desktop */
   height: 100%;
   border-radius: 20px;
-  overflow:hidden;
+  overflow: hidden;
   transition: all 0.5s cubic-bezier(0.5, 0, 0, 0.5);
   box-shadow: 0 8px 30px rgba(0, 121, 251, 0.8);
 }
 
+@media (max-width: 768px) {
+  .highlight-slide {
+    width: 70%;  /* bigger on tablet/mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .highlight-slide {
+    width: 90%;  /* nearly full width on small phones */
+  }
+}
+
+/* Center/left/right positioning stays */
 .highlight-slide.center {
   z-index: 3;
   transform: scale(1) translateX(0);
   opacity: 1;
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   cursor: pointer;
-
 }
 
-  .highlight-slide.left {
+.highlight-slide.left {
   z-index: 2;
   transform: scale(0.8) translateX(-120%);
   opacity: 0.5;
   filter: blur(2.5px) grayscale(50%);
-    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .highlight-slide.right {
@@ -228,7 +239,6 @@ transition: 0.3s ease-in;
   transform: scale(0.8) translateX(120%);
   opacity: 0.5;
   filter: blur(3px) grayscale(50%);
-  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .highlight-slide.side {
@@ -244,33 +254,33 @@ transition: 0.3s ease-in;
   right: 10%;
   text-align: center;
   font-size: 1.5rem;
-  color: rgb(255, 255, 255);
-        -webkit-text-stroke: 1px #000023;
-
-
+  color: #fff;
+  -webkit-text-stroke: 1px #000023;
 }
 
+/* Optional: nav buttons adjust for mobile */
 .nav-btn {
-  background: rgba(0, 0, 1, 1);
-  border: none;
-  color: white;
   font-size: 2rem;
-  font-family:Arial, Helvetica, sans-serif;
-  padding: 10px 15px;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  border: none;
   border-radius: 50%;
-  cursor: pointer;
+  width: 41px;
+  height: 45px;
   position: absolute;
-  z-index: 10;
-  transition: background 0.3s;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  cursor: pointer;
 }
 
-.nav-btn.left {
-  left: 3%;
+.nav-btn.left { left: 13px; }
+.nav-btn.right { right: 13px; }
+
+@media (max-width: 480px) {
+  .nav-btn { width: 30px; height: 35px; font-size: 1.5rem; }
 }
 
-.nav-btn.right {
-  right: 3%;
-}
 
 .nav-btn:hover {
   background: rgba(0, 0, 0, 0.7);
