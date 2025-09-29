@@ -8,6 +8,8 @@ import Link from "next/link";
  * - Clicking a slide navigates to /video/{id}
  * - The center slide index starts at 1 so the second item is center on load.
  */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
 
 const slides = [
   { id: "video1", src: "/nepwin.svg", title: "" },

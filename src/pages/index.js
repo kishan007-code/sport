@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Bold } from "lucide-react";
 
 
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(true);

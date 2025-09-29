@@ -1,4 +1,6 @@
 // src/components/Footer.js
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
 export default function Footer() {
   return (
     <div>

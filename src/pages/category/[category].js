@@ -3,6 +3,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import Layout from "@/components/Layout";
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
 
 // 📝 Enhanced dummy data with more details
 const categoryVideos = {

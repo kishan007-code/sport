@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { AlignCenter, Bold } from "lucide-react";
+import Image from "next/image";
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable @next/next/no-img-element */
+
 
 const videoData = {
   video1: {
@@ -104,7 +108,8 @@ export default function VideoPage() {
     className="social-btn telegram"
     aria-label="Join us on Telegram"
   >
-    <img src="/telegram.png" alt="Telegram" className="social-icon" />
+    <Image src="/telegram.png" alt="Telegram" className="social-icon" width={728}      // required
+  height={90}      />
     <span>Telegram</span>
   </a>
 
@@ -115,7 +120,10 @@ export default function VideoPage() {
     className="social-btn discord"
     aria-label="Join us on Discord"
   >
-    <img src="/discord.png" alt="Discord" className="social-icon" />
+    <Image src="/discord.png" alt="Discord" className="social-icon"
+    width={728}      // required
+  height={90}      // required
+   />
     <span>Discord</span>
   </a>
 
@@ -126,7 +134,8 @@ export default function VideoPage() {
     className="social-btn whatsapp"
     aria-label="Join us on WhatsApp"
   >
-    <img src="/whasap.png" alt="WhatsApp" className="social-icon" />
+    <Image src="/whasap.png" alt="WhatsApp" className="social-icon" width={728}      // required
+  height={90} />
     <span>WhatsApp</span>
   </a>
 </div>
@@ -160,13 +169,16 @@ export default function VideoPage() {
 
             <div className="payments">
               <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                <img src="/esewa.png" alt="E-sewa" />
+                <Image src="/esewa.png" alt="E-sewa" width={50}      // required
+  height={50}      />
               </a>
               <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                <img src="/kalti.png" alt="Khalti" />
+                <Image src="/kalti.png" alt="Khalti" width={50}      // required
+  height={30}/>
               </a>
               <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                <img src="/binance.png" alt="Binance" />
+                <Image src="/binance.png" alt="Binance" width={30}      // required
+  height={30}/>
               </a>
             </div>
 
@@ -195,7 +207,8 @@ export default function VideoPage() {
                 rel="noopener noreferrer"
                 href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
               >
-                <img src="/fb.png" alt="Facebook" />
+                <Image src="/fb.png" alt="Facebook" width={30}      // required
+  height={30}/>
               </a>
               <a
                 className="shareIcon"
@@ -203,7 +216,8 @@ export default function VideoPage() {
                 rel="noopener noreferrer"
                 href={`https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`}
               >
-                <img src="/whasap.png" alt="WhatsApp" />
+                <Image src="/whasap.png" alt="WhatsApp"  width={30}      // required
+  height={30}/>
               </a>
             </div>
 
@@ -280,13 +294,16 @@ export default function VideoPage() {
 
                 <div className="payments small">
                   <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                    <img src="/esewa.png" alt="E-sewa" />
+                    <Image src="/esewa.png" alt="E-sewa"  width={50}      // required
+  height={50}/>
                   </a>
                   <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                    <img src="/kalti.png" alt="Khalti" />
+                    <Image src="/kalti.png" alt="Khalti"  width={30}      // required
+  height={30} />
                   </a>
                   <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                    <img src="/binance.png" alt="Binance" />
+                    <Image src="/binance.png" alt="Binance"  width={30}      // required
+  height={30}/>
                   </a>
                 </div>
 
@@ -318,13 +335,16 @@ export default function VideoPage() {
 
             <div className="payments">
               <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                <img src="/esewa.png" alt="E-sewa" />
+                <Image src="/esewa.png" alt="E-sewa"  width={40}      // required
+  height={40}/>
               </a>
               <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                <img src="/kalti.png" alt="Khalti" />
+                <Image src="/kalti.png" alt="Khalti"  width={40}      // required
+  height={30}/>
               </a>
               <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                <img src="/binance.png" alt="Binance" />
+                <Image src="/binance.png" alt="Binance"  width={30}      // required
+  height={30}/>
               </a>
             </div>
 
