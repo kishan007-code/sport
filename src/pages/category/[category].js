@@ -31,12 +31,12 @@ const categoryVideos = {
   football: [
     {
   id: "video3",
-  title: "Nasaf Qarshi vs Al Hilal",
-  subtitle: "Champions League",
+  title: "ENDED",
+  subtitle: "ENDED",
   thumb: "/hilal.svg",
   time: "2025-09-29T19:30:00+05:45",  // ✅ Nepal time
   viewers: "5.1k watching",
-  isLive: true,
+  isLive: false,
 },
 
     {
