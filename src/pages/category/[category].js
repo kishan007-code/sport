@@ -65,7 +65,7 @@ export default function CategoryPage() {
         <div className="not-found">
           <div className="error-icon">⚠️</div>
           <h2>Category not found</h2>
-          <p>The sports category you're looking for doesn't exist.</p>
+          <p>The sports category you are looking for does not exist.</p>
           <Link href="/">
             <button className="back-btn">Go Back Home</button>
           </Link>

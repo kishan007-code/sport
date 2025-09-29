@@ -147,7 +147,7 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
 
 </p>
 
-<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> We don't host any of the streams. They are from 3rd party sites. <br/> Contact us for any takedowns.</p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> We do not host any of the streams. They all are from 3rd party sites. <br/> Contact us for any takedowns.</p>
 
 
         {/* Footer */}
