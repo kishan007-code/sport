@@ -14,7 +14,6 @@ const categoryVideos = {
       subtitle: "Unity Cup 2025",
       thumb: "/nepwin.svg",
       time: "2025-09-29T14:30:00Z",
-      viewers: "129.3k watching",
       isLive: false,
     },
     {
@@ -23,7 +22,6 @@ const categoryVideos = {
       subtitle: "Unity Cup 2025",
       thumb: "/nepwin2.svg",
       time: "2025-09-30T14:30:00Z",
-      viewers: "2.3k waiting",
       isLive: false,
     },
     
@@ -35,7 +33,6 @@ const categoryVideos = {
   subtitle: "ENDED",
   thumb: "/hilal.svg",
   time: "2025-09-29T19:30:00+05:45",  // ✅ Nepal time
-  viewers: "5.1k watching",
   isLive: false,
 },
 
@@ -45,7 +42,6 @@ const categoryVideos = {
       subtitle: "UCL Group Stage",
       thumb: "/madrid.svg",
       time: "2025-09-30T22:30:00+05:45",
-      viewers: "1M waiting",
       isLive: false,
     },
   ],
