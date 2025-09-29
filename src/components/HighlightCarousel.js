@@ -1,10 +1,18 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
+/**
+ * Clickable Highlight Carousel
+ * - Slides array below contains `id`, `src`, `title`.
+ * - Clicking a slide navigates to /video/{id}
+ * - The center slide index starts at 1 so the second item is center on load.
+ */
 
 const slides = [
-  { src: "/indpak.jpg", title: "india v pakistan" },
-  { src: "/indpak.jpg", title: "india v pakistan" },
-  { src: "/indpak.jpg", title: "india v pakistan" },
+  { id: "video1", src: "/nepwin.svg", title: "" },
+  { id: "video3", src: "/hilal.svg", title: "Asian CL" }, // your requested slide
+  { id: "video4", src: "/madrid.svg", title: "UCL" },
 ];
 
 export default function HighlightCarousel() {
@@ -20,7 +28,7 @@ export default function HighlightCarousel() {
 
   return (
     <section className="highlight-wrapper">
-      <button className="nav-btn left" onClick={prevSlide}>
+      <button className="nav-btn left" onClick={prevSlide} aria-label="Previous slide">
         &#10094;
       </button>
 
@@ -32,15 +40,28 @@ export default function HighlightCarousel() {
           else if (index === (current + 1) % slides.length) position = "right";
 
           return (
-            <div key={index} className={`highlight-slide ${position}`}>
-              <Image src={slide.src} alt={slide.title} fill style={{ objectFit: "cover" }} />
-              <div className="highlight-title">{slide.title}</div>
-            </div>
+            <Link
+              key={slide.id}
+              href={`/video/${slide.id}`}
+              className={`highlight-slide ${position}`}
+            >
+              <div className="slide-inner">
+                {/* Image uses fill — parent (.slide-inner) is position:relative in CSS */}
+                <Image
+                  src={slide.src}
+                  alt={slide.title}
+                  fill
+                  style={{ objectFit: "cover" }}
+                  priority={index === current}
+                />
+                <div className="highlight-title">{slide.title}</div>
+              </div>
+            </Link>
           );
         })}
       </div>
 
-      <button className="nav-btn right" onClick={nextSlide}>
+      <button className="nav-btn right" onClick={nextSlide} aria-label="Next slide">
         &#10095;
       </button>
     </section>
