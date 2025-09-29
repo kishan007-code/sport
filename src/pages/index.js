@@ -4,9 +4,7 @@ import HighlightCarousel from "@/components/HighlightCarousel";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Link from "next/link";
-import { Bold } from "lucide-react";
-
-
+import { Bold, Maximize } from "lucide-react";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,7 +36,7 @@ useEffect(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
-        <img src="/kbergwhite2.png" alt="Logo" className="logo" />
+        <Image src="/kbergwhite2.png" alt="Logo" className="logo" width={170} height={30}/>
       </a>
     </div>
 
@@ -87,7 +85,8 @@ useEffect(() => {
     className="social-btn telegram"
     aria-label="Join us on Telegram"
   >
-    <img src="/telegram.png" alt="Telegram" className="social-icon" />
+    <Image src="/telegram.png" alt="Telegram" className="social-icon" width={30} height={30}
+    />
     <span>Telegram</span>
   </a>
 
@@ -98,7 +97,7 @@ useEffect(() => {
     className="social-btn discord"
     aria-label="Join us on Discord"
   >
-    <img src="/discord.png" alt="Discord" className="social-icon" />
+    <Image src="/discord.png" alt="Discord" className="social-icon" width={40} height={40} />
     <span>Discord</span>
   </a>
 
@@ -109,7 +108,7 @@ useEffect(() => {
     className="social-btn whatsapp"
     aria-label="Join us on WhatsApp"
   >
-    <img src="/whasap.png" alt="WhatsApp" className="social-icon" />
+    <Image src="/whasap.png" alt="WhatsApp" className="social-icon" width={30} height={30}/>
     <span>WhatsApp</span>
   </a>
 </div>
@@ -144,7 +143,7 @@ useEffect(() => {
 <p>
   <meta name="keywords" content="Live sports streaming, Watch cricket live, Football live stream, XYZ Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream IPL, Stream Premier League, XYZ Live cricket and football"></meta>
  
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football"
+Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football
 
 </p>
 
@@ -163,7 +162,7 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
       rel="noopener noreferrer"
       aria-label="Facebook"
     >
-      <img src="/fb.png" alt="Facebook" />
+      <Image src="/fb.png" alt="Facebook" width={30} height={30}/>
     </a>
 
     <a
@@ -172,7 +171,7 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
       rel="noopener noreferrer"
       aria-label="Instagram"
     >
-      <img src="/insta.png" alt="Instagram" />
+      <Image src="/insta.png" alt="Instagram" width={30} height={30}/>
     </a>
 
     <a
@@ -181,7 +180,7 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
       rel="noopener noreferrer"
       aria-label="TikTok"
     >
-      <img src="/tktk.png" alt="TikTok" />
+      <Image src="/tktk.png" alt="TikTok" width={30} height={30}/>
     </a>
   </div>
 </div>

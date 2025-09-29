@@ -3,8 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import Layout from "@/components/Layout";
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
+
 
 // 📝 Enhanced dummy data with more details
 const categoryVideos = {
@@ -55,7 +54,6 @@ const categoryVideos = {
 export default function CategoryPage() {
   const router = useRouter();
   const { category } = router.query;
- 
 
   if (!category) return null;
 
@@ -158,7 +156,7 @@ export default function CategoryPage() {
     className="social-btn telegram"
     aria-label="Join us on Telegram"
   >
-    <img src="/telegram.png" alt="Telegram" className="social-icon" />
+    <Image src="/telegram.png" alt="Telegram" className="social-icon" width={30} height={30}/>
     <span>Telegram</span>
   </a>
 
@@ -169,7 +167,7 @@ export default function CategoryPage() {
     className="social-btn discord"
     aria-label="Join us on Discord"
   >
-    <img src="/discord.png" alt="Discord" className="social-icon" />
+    <Image src="/discord.png" alt="Discord" className="social-icon" width={30} height={30} />
     <span>Discord</span>
   </a>
 
@@ -180,15 +178,16 @@ export default function CategoryPage() {
     className="social-btn whatsapp"
     aria-label="Join us on WhatsApp"
   >
-    <img src="/whasap.png" alt="WhatsApp" className="social-icon" />
+    <Image src="/whasap.png" alt="WhatsApp" className="social-icon" width={30} height={30}/>
     <span>WhatsApp</span>
   </a>
 </div>
         
         <div className="category-banner top">
-  <img
+  <Image
     src="/banner.png"
     alt="Top Banner"
+    width={728} height={90}
     style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto", marginBottom:120 }}
     onError={(e)=>{e.target.src="/api/placeholder/280/160";}}
   />
@@ -244,16 +243,17 @@ export default function CategoryPage() {
 
 {/* ====== BOTTOM BANNER IMAGE ====== */}
 <div className="category-banner bottom">
-  <img
+  <Image
     src="/banner.png"
     alt="Bottom Banner"
+    width={728} height={90}
     style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto" }}
   />
 </div>
 <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', color:"white"}}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
 <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', color:"white"}}><strong >Keywords</strong><br/></p>
 <p> 
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football"
+Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and footbal
 
 </p>
         

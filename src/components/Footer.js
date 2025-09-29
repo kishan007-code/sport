@@ -1,6 +1,6 @@
 // src/components/Footer.js
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <div>
@@ -11,13 +11,13 @@ export default function Footer() {
             <strong className="quick-title">Social Media Links</strong>
             <div className="social-icons">
               <a href="https://www.facebook.com/profile.php?id=61577032744088" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <img src="/fb.png" alt="Facebook" />
+                <Image src="/fb.png" alt="Facebook" width={30} height={30}/>
               </a>
               <a href="https://www.instagram.com/kai.se7en/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <img src="/insta.png" alt="Instagram" />
+                <Image src="/insta.png" alt="Instagram" width={30} height={30}/>
               </a>
               <a href="https://www.tiktok.com/@kai7berg" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                <img src="/tktk.png" alt="TikTok" />
+                <Image src="/tktk.png" alt="TikTok" width={30} height={30}/>
               </a>
             </div>
           </div>

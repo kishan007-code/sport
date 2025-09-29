@@ -4,9 +4,6 @@ import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { AlignCenter, Bold } from "lucide-react";
 import Image from "next/image";
-/* eslint-disable react/no-unescaped-entities */
-/* eslint-disable @next/next/no-img-element */
-
 
 const videoData = {
   video1: {
@@ -366,7 +363,7 @@ export default function VideoPage() {
       <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >ABOUT</strong></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
 <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Keywords</strong><br/></p>
 <p> 
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football"
+Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football
 </p>
 
       <style jsx>{`

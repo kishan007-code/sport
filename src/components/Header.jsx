@@ -1,6 +1,8 @@
 // src/components/Header.js
 import { useRef, useEffect, useState } from 'react';
 import Link from "next/link";
+import Image from "next/image";
+
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(true);
@@ -44,7 +46,7 @@ export default function Header() {
         <div className="header-left">
           <Link href="/" legacyBehavior>
             <a>
-              <img src="/kbergwhite2.png" alt="Logo" className="logo" />
+              <Image src="/kbergwhite2.png" alt="Logo" className="logo" width={180} height={30}/>
             </a>
           </Link>
         </div>
