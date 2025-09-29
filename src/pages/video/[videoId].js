@@ -11,7 +11,7 @@ const videoData = {
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/SRfGzEDRlNA?si=rCDAU3atjEnLLs67", // link 1
-      "https://www.youtube.com/embed/CLCi50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
       "https://www.youtube.com/embed/SRfGzEDRlNA?si=rCDAU3atjEnLLs67", // link 3
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
     ],
@@ -31,9 +31,9 @@ const videoData = {
     title: "Al hilal game",
     // multiple sources for the same video - buttons switch between these
     sources: [
-      "https://embedsports.top/embed/alpha/nasaf-quarshi-vs-al-hilal/1", // link 1
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://embedsports.top/embed/alpha/nasaf-quarshi-vs-al-hilal/3", // link 3
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
     ],
   },
