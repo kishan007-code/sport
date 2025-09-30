@@ -27,7 +27,7 @@ const categoryVideos = {
   subtitle: "UCL Group Stage",
   thumb: "/madrid.png",
   time: "2025-09-30T22:30:00+05:45",  // ✅ Nepal time
-  isLive: false,
+  isLive: true,
 },
 
     {
