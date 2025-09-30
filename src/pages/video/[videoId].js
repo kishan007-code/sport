@@ -151,7 +151,6 @@ useEffect(() => {
           <aside className={`sidePanel leftPanel ${theaterMode ? "hidden" : ""}`}>
             <h3>नेपाली सन्देश</h3>
             <p style={{ marginBottom: 10 }}>
-             तपाइको सानो सहयोगले एउटा सबल विद्यार्थी जीवन निर्माणमा अमुख भूमिका खेल्दछ। 
               सहयोगी मनप्रति:     
             </p>
 
@@ -272,7 +271,7 @@ useEffect(() => {
               <div className="englishBelow">
                 <h3 style={{textAlign:"center"}}>Message in English</h3>
                 <p style={{textAlign:"center"}}>
-                 With bulk College fees, student life aren’t easy. even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
+                 Even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
                 </p>
 
                 <div className="progressWrap small">
@@ -319,7 +318,7 @@ useEffect(() => {
           <aside className={`sidePanel rightPanel ${theaterMode ? "hidden" : ""}`}>
             <h3 style={{textAlign:"center"}}>Message in English</h3>
             <p>
-             With bulk College fees, student life aren’t easy. Even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
+             Even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
             </p>
 
             <div className="progressWrap">
