@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const videoData = {
   video1: {
-    title: "Nepal vs West Indies 2",
+    title: "Nepal vs West Indies 3",
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
@@ -18,37 +18,57 @@ const videoData = {
   },
 
   video2: {
-    title: "Nepal vs West Indies 3",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
-    ],
-  },
-  video3: {
-    title: "Al hilal game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
-    ],
-  },
-  video4: {
     title: "Real Madrid UCL Game",
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
+      "https://embedsports.top/embed/admin/ppv-kairat-almaty-vs-real-madrid/1", // link 2 (replace with your alternate)
+      "https://embedsports.top/embed/alpha/kairat-almaty-vs-real-madrid/1", // link 3
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    ],
+  },
+  video3: {
+    title: "Atletico UCL Game",
+    // multiple sources for the same video - buttons switch between these
+    sources: [
+      "https://embedsports.top/embed/admin/ppv-atleti-vs-frankfurt/1", // link 1
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
+      "https://embedsports.top/embed/charlie/atletico-madrid-vs-eintracht-frankfurt-1451040/1", // link 4
+    ],
+  },
+  video4: {
+    title: "Chelsea UCL Game",
+    // multiple sources for the same video - buttons switch between these
+    sources: [
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1", // link 1
+      "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1", // link 2 (replace with your alternate)
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
     ],
   },
   video5: {
-    title: "Ind v Bang",
+    title: "Liverpool UCL Game",
+    // multiple sources for the same video - buttons switch between these
+    sources: [
+      "https://embedsports.top/embed/admin/ppv-galatasaray-vs-liverpool/1", // link 1
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
+      "https://embedsports.top/embed/alpha/galatasaray-u19-vs-liverpool-u19/2", // link 4
+    ],
+  },
+  video6: {
+    title: "Inter Milan UCL Game",
+    // multiple sources for the same video - buttons switch between these
+    sources: [
+      "https://embedsports.top/embed/alpha/internazionale-vs-slavia-prague/2", // link 1
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://embedsports.top/embed/alpha/internazionale-vs-slavia-prague/1", // link 3
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    ],
+  },
+  video7: {
+    title: "Bayern Munich UCL Game",
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1

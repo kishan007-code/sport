@@ -10,9 +10,9 @@ import Link from "next/link";
  */
 
 const slides = [
-  { id: "video1", src: "/nepwin.svg", title: "" },
-  { id: "video3", src: "/hilal.svg", title: "Asian CL" }, // your requested slide
-  { id: "video4", src: "/madrid.svg", title: "UCL" },
+  { id: "video1", src: "/nepwin2.svg", title: "#UnityCup" },
+  { id: "video5", src: "/livpool.png", title: "#UCL" }, // your requested slide
+  { id: "video2", src: "/madrid.png", title: "UCL" },
 ];
 
 export default function HighlightCarousel() {

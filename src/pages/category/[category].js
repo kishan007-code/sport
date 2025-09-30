@@ -10,40 +10,67 @@ const categoryVideos = {
   cricket: [
     {
       id: "video1",
-      title: "Nepal vs WIndies, 2nd T20I",
-      subtitle: "Unity Cup 2025",
-      thumb: "/nepwin.svg",
-      time: "2025-09-29T14:30:00Z",
-      isLive: false,
-    },
-    {
-      id: "video2",
-      title: "Nepal vs WIndies, 2nd T20I",
+      title: "Nepal vs WIndies, 3rd T20I",
       subtitle: "Unity Cup 2025",
       thumb: "/nepwin2.svg",
-      time: "2025-09-30T14:30:00Z",
+      time: "2025-09-30T20:15:00+05:45",
       isLive: false,
     },
+    
     
   ],
   football: [
     {
-  id: "video3",
-  title: "ENDED",
-  subtitle: "ENDED",
-  thumb: "/hilal.svg",
-  time: "2025-09-29T19:30:00+05:45",  // ✅ Nepal time
+  id: "video2",
+  title: "Kairat Almaty vs Real Madrid",
+  subtitle: "UCL Group Stage",
+  thumb: "/madrid.png",
+  time: "2025-09-30T22:30:00+05:45",  // ✅ Nepal time
   isLive: false,
 },
 
     {
-      id: "video4",
-      title: "Kairat Almaty vs Real Madrid",
+      id: "video3",
+      title: "Atletico Madrid vs Frankfurt",
       subtitle: "UCL Group Stage",
-      thumb: "/madrid.svg",
-      time: "2025-09-30T22:30:00+05:45",
+      thumb: "/atleti.png",
+      time: "2025-10-01T00:45:00+05:45",
       isLive: false,
     },
+{
+      id: "video4",
+      title: "Chelsea vs Benfica",
+      subtitle: "UCL Group Stage",
+      thumb: "/chelsea.png",
+      time: "2025-10-01T00:45:00+05:45",
+      isLive: false,
+    },
+{
+      id: "video5",
+      title: "Liverpool vs Galatasaray",
+      subtitle: "UCL Group Stage",
+      thumb: "/livpool.png",
+      time: "2025-10-01T00:45:00+05:45",
+      isLive: false,
+    },
+{
+      id: "video6",
+      title: "Inter Milan vs Slavia Prague",
+      subtitle: "UCL Group Stage",
+      thumb: "/inter.png",
+      time: "2025-10-01T00:45:00+05:45",
+      isLive: false,
+    },
+
+{
+      id: "video6",
+      title: "Bayern Munchen vs Pafos FC",
+      subtitle: "UCL Group Stage",
+      thumb: "/bayern.png",
+      time: "2025-10-01T00:45:00+05:45",
+      isLive: false,
+    },
+
   ],
 };
 
@@ -273,8 +300,8 @@ export default function CategoryPage() {
     style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto" }}
   />
 </div>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', color:"white"}}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', color:"white"}}><strong >Keywords</strong><br/></p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Keywords</strong><br/></p>
 <p> 
 Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and footbal
 
@@ -409,6 +436,9 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
 
         .thumb-container {
           width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           height: 160px;
           position: relative;
           overflow: hidden;
