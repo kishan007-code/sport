@@ -15,7 +15,7 @@ const categoryVideos = {
       subtitle: "Unity Cup 2025",
       thumb: "/nepwin2.svg",
       time: "2025-09-30T20:15:00+05:45",
-      isLive: false,
+      isLive: true,
     },
     
     
