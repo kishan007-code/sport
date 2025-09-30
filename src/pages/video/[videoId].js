@@ -12,9 +12,9 @@ const videoData = {
     // multiple sources for the same video - buttons switch between these
     sources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
+      "https://www.youtube.com/embed/xeY2X-1tAQM?si=4g4HyhhATCP_9mvq", // link 2 (replace with your alternate)
       "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+      "https://www.youtube.com/embed/xeY2X-1tAQM?si=4g4HyhhATCP_9mvq", // link 4
     ],
   },
 
@@ -402,7 +402,7 @@ useEffect(() => {
         {/* optional small description/time area under everything */}
         <div className="metaRow" style={{textAlign: "center"}}>
           <div className="metaLeft">⏱ Live / {new Date().toLocaleString()}</div>
-          <p>WAIT TILL GAME STARTS, LINKS WILL BE UPDATED</p>
+          <p>WAIT TILL GAME STARTS, LINKS WILL BE UPDATED<br/> Check another link if current link is not working..</p>
           <div className="metaRight">❤️ Thank you for your visit /\ share if you like ^_^</div>
         </div>
       </main>
