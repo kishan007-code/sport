@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
 import { AlignCenter, Bold } from "lucide-react";
 import Image from "next/image";
+import Head from "next/head";
 
 const videoData = {
   video1: {
@@ -83,6 +84,11 @@ export default function VideoPage() {
     const router = useRouter();
   const { videoId } = router.query;
 
+   const matchTitle = "Live sports streaming";
+  const team1 = "Football Match live today";
+  const team2 = "Barcelona Live";
+  const categoryName = "World cup || UCL";
+
   const [selectedSourceIndex, setSelectedSourceIndex] = useState(0);
   const [theaterMode, setTheaterMode] = useState(false);
     const [currentUrl, setCurrentUrl] = useState("");   // add the URL
@@ -119,7 +125,30 @@ useEffect(() => {
   };
 
   return (
-    <Layout>
+  <>    
+  <Head>
+        <title>{`${matchTitle} | KaiSportsLive`}</title>
+        <meta
+          name="description"
+          content={`Watch ${team1} vs ${team2} live in HD. ${categoryName} streaming,  Cricket, Nepal cricket, world cup, Champions league only at KaiSportsLive.`}
+        />
+        <meta
+          name="keywords"
+          content={`${matchTitle}, ${team1} vs ${team2} live, ${categoryName} stream, Unity Cup 2025, HD live sports`}
+        />
+        <meta property="og:title" content={`${matchTitle} | KaiSportsLive`} />
+        <meta
+          property="og:description"
+          content={`Live streaming of ${team1} vs ${team2}. Watch in HD now on KaiSportsLive.`}
+        />
+        <meta
+          property="og:url"
+          content={`https://kaisportslive.vercel.app/video/${videoId}`}
+        />
+        <meta property="og:type" content="video.other" />
+      </Head>
+
+  <Layout>
       <main style={{ paddingTop: 80, paddingBottom: 50, minHeight: "85vh" }}>
 
         {/* Social Join Buttons Section */}
@@ -207,9 +236,6 @@ useEffect(() => {
             <div className="payText">E-sewa: +977 9762486686</div>
           </aside>
 
-
-
-
           {/* Center */}
           <section className="centerPanel">
 
@@ -242,10 +268,6 @@ useEffect(() => {
   height={30}/>
               </a>
             </div>
-
-
-
-
 
             {/*VIDEO BAR*/}
             <div className="videoWrap">
@@ -592,5 +614,6 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
         /* hide left panel in theater mode already handled by 'hidden' class, but ensure animation is clean on mobile */
       `}</style>
     </Layout>
+  </>
   );
 }

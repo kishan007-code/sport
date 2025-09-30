@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
+import Head from "next/head";
 
 
 // 📝 Enhanced dummy data with more details
@@ -89,6 +90,8 @@ export default function CategoryPage() {
   }, [category]);
 
  if (!category) return null;
+   const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
+
 
  const videos = categoryVideos[category.toLowerCase()];
 
@@ -105,6 +108,7 @@ export default function CategoryPage() {
 
   if (!videos) {
     return (
+    
       <Layout>
         <div className="not-found">
           <div className="error-icon">⚠️</div>
@@ -188,8 +192,30 @@ export default function CategoryPage() {
   };
 
   return (
+<>
+ <Head>
+    <title>{`${categoryTitle} Live | KaiSportsLive`}</title>
+    <meta
+      name="description"
+      content={`Watch ${categoryTitle} live streams in HD. KaiSportsLive brings you fast & free sports streaming, previews & highlights.`}
+    />
+    <meta
+      name="keywords"
+      content={`${categoryTitle} live, ${categoryTitle} streaming, ${categoryTitle} matches HD, KaiSportsLive, watch sports online`}
+    />
+    <meta property="og:title" content={`${categoryTitle} Live | KaiSportsLive`} />
+    <meta
+      property="og:description"
+      content={`Watch ${categoryTitle} matches live in HD. Join KaiSportsLive for free sports streaming & updates.`}
+    />
+    <meta
+      property="og:url"
+      content={`https://kaisportslive.vercel.app/category/${category}`}
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://kaisportslive.vercel.app/sitepreview.png" />
+  </Head>
     <Layout>
-      
       <main className="category-main">
                 {/* Social Join Buttons Section */}
 <div className="social-join-container">
@@ -239,7 +265,7 @@ export default function CategoryPage() {
 
 {/* Category Header */}
         <div className="category-header">
-          <h1 className="category-title">
+          <h1 className="category-title" >
             <span className="emoji">{getCategoryEmoji(category)}</span>
             {category.charAt(0).toUpperCase() + category.slice(1)} Streams
           </h1>
@@ -300,13 +326,15 @@ export default function CategoryPage() {
     style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto" }}
   />
 </div>
+ 
 <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Keywords</strong><br/></p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Popular Searches</strong><br/></p>
 <p> 
 Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and footbal
+live sports streaming, watch cricket online, football HD streams, free sports coverage, Premier League live, cricket match today, UCL streaming, La Liga live.
+</p>      
 
-</p>
-        
+<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> Kaishports live doesn't host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. <br/> Contact us for any takedowns.</p>
       </main>
 
       <style jsx>{`
@@ -571,5 +599,6 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
         }
       `}</style>
     </Layout>
+    </>
   );
 }

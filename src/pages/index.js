@@ -5,6 +5,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Link from "next/link";
 import { Bold, Maximize } from "lucide-react";
+import Head from "next/head";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -24,6 +25,29 @@ useEffect(() => {
 
   return (
     <>
+
+    <Head>
+        <title>KaiSportsLive | Watch Live Football & Cricket HD</title>
+        <meta
+          name="description"
+          content="KaiSportsLive brings you live sports matches, HD streams, previews, and updates. Watch football, cricket & more — fast & free."
+        />
+        <meta
+          name="keywords"
+          content="live sports, KaiSportsLive, football live, cricket HD stream, Unity Cup, watch sports online"
+        />
+        <meta name="author" content="KaiSportsLive" />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:title" content="KaiSportsLive | Live Sports HD" />
+        <meta
+          property="og:description"
+          content="Stream football & cricket live in HD. KaiSportsLive — fast, free, and mobile friendly."
+        />
+        <meta property="og:url" content="https://kaisportslive.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://kaisportslive.vercel.app/kbergwhite2.png" />
+      </Head>
+
      {/* ================= HEADER ================= */}
       <header className={`site-header${scrolled ? " scrolled" : ""}`}>
   <div className="header-container">
@@ -139,15 +163,13 @@ useEffect(() => {
 
 
 <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold'}}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold'}}><strong >Keywords</strong><br/></p>
-<p>
-  <meta name="keywords" content="Live sports streaming, Watch cricket live, Football live stream, XYZ Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream IPL, Stream Premier League, XYZ Live cricket and football"></meta>
- 
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football
+<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Popular Searches</strong><br/></p>
+<p> 
+Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and footbal
+live sports streaming, watch cricket online, football HD streams, free sports coverage, Premier League live, cricket match today, UCL streaming, La Liga live.
+</p> 
 
-</p>
-
-<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> We do not host any of the streams. They all are from 3rd party sites. <br/> Contact us for any takedowns.</p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> Kaishports live doesn't host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. <br/> Contact us for any takedowns.</p>
 
 
         {/* Footer */}
