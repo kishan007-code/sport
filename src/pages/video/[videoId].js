@@ -101,9 +101,33 @@ useEffect(() => {
 
 
 
-  // donation state (you can fetch this from an API)
-  const [amount, setAmount] = useState(13.73); // current amount e.g. 15.76$
-  const goal = 1000;
+useEffect(() => {
+  if (theaterMode) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+}, [theaterMode]);
+
+useEffect(() => {
+  if (theaterMode) {
+    document.body.classList.add("theater-active");
+  } else {
+    document.body.classList.remove("theater-active");
+  }
+}, [theaterMode]);
+
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === "Escape" && theaterMode) {
+      setTheaterMode(false);
+    }
+  };
+  window.addEventListener("keydown", handleKeyDown);
+  return () => window.removeEventListener("keydown", handleKeyDown);
+}, [theaterMode]);
+
+
 
   useEffect(() => {
     setSelectedSourceIndex(0);
@@ -115,14 +139,7 @@ useEffect(() => {
   if (!video) return <p style={{ textAlign: "center", marginTop: 60 }}>Video not found</p>;
 
   const currentEmbed = video.sources[selectedSourceIndex];
-  const progressPercent = Math.min((amount / goal) * 100, 100).toFixed(1);
 
-  // Replace these links with the actual payment targets you will give
-  const paymentLinks = {
-    esewa: "https://esewa.com.np/#/checkout?placeholder=1",
-    khalti: "https://khalti.com/#/checkout?placeholder=1",
-    binance: "https://www.binance.com/en/donate?placeholder=1",
-  };
 
   return (
   <>    
@@ -196,45 +213,7 @@ useEffect(() => {
 
         <div className="container">
 
-          {/* Left - Nepali panel (hidden in theater mode) */}
-          <aside className={`sidePanel leftPanel ${theaterMode ? "hidden" : ""}`}>
-            <h3>नेपाली सन्देश</h3>
-            <p style={{ marginBottom: 10 }}>
-              सहयोगी मनप्रति:     
-            </p>
-
-            <div className="progressWrap">
-              <div className="progressLabel">0 - ${goal} • Currently: ${amount}</div>
-              <div className="progressBar">
-                <div className="progressFill" style={{ width: `${progressPercent}%` }} />
-              </div>
-              <div style={{ fontSize: 13, color: "#666", marginTop: 6 }}>{progressPercent}%</div>
-            </div>
-            
-            {/* 📜 Donor List */}
-            <div className="donorLink">
-              <a href="/record.xlsx" target="_blank" rel="noopener noreferrer">
-                📜 View Donor List
-              </a>
-            </div>
-
-            <div className="payments">
-              <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                <Image src="/esewa.png" alt="E-sewa" width={50}      // required
-  height={50}      />
-              </a>
-              <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                <Image src="/kalti.png" alt="Khalti" width={50}      // required
-  height={30}/>
-              </a>
-              <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                <Image src="/binance.png" alt="Binance" width={30}      // required
-  height={30}/>
-              </a>
-            </div>
-
-            <div className="payText">E-sewa: +977 9762486686</div>
-          </aside>
+          
 
           {/* Center */}
           <section className="centerPanel">
@@ -270,16 +249,27 @@ useEffect(() => {
             </div>
 
             {/*VIDEO BAR*/}
-            <div className="videoWrap">
-              <div className="videoFrame">
-                <iframe
-                  src={currentEmbed}
-                  title={video.title}
-                  allowFullScreen
-                  frameBorder="0"
-                />
-              </div>
-            </div>
+            <div className={`videoWrap ${theaterMode ? "theater" : ""}`}>
+  <div className="videoFrame">
+    <iframe
+      src={currentEmbed}
+      title={video.title}
+      allowFullScreen
+      frameBorder="0"
+    />
+    {theaterMode && (
+  <button 
+    className="closeTheaterBtn" 
+    onClick={() => setTheaterMode(false)}
+    aria-label="Exit theater mode"
+  >
+    ✕
+  </button>
+)}
+
+  </div>
+</div>
+
 
             {/* controls row: source buttons + theater toggle */}
             <div className="controlsRow">
@@ -307,93 +297,10 @@ useEffect(() => {
               </div>
             </div>
 
-            {/* When theater mode is active, English message moves below the video here.
-                If theater mode is off, the right panel will show it to the right. */}
-            {theaterMode && (
-              <div className="englishBelow">
-                <h3 style={{textAlign:"center"}}>Message in English</h3>
-                <p style={{textAlign:"center"}}>
-                 Even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
-                </p>
-
-                <div className="progressWrap small">
-                  <div className="progressLabel" style={{textAlign:"center"}}>0 - ${goal} • Currently: ${amount}</div>
-                  <div className="progressBar">
-                    <div className="progressFill" style={{ width: `${progressPercent}%` }} />
-                  </div>
-                  <div style={{ fontSize: 12, color: "#666", marginTop: 6 }}>{progressPercent}%</div>
-                </div>
-
-                {/* 📜 Donor List */}
-                <div className="donorLink">
-                  <a
-                    href="/record.xlsx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    📜 View Donor List
-                  </a>
-                </div>
-
-
-                <div className="payments small">
-                  <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                    <Image src="/esewa.png" alt="E-sewa"  width={50}      // required
-  height={50}/>
-                  </a>
-                  <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                    <Image src="/kalti.png" alt="Khalti"  width={30}      // required
-  height={30} />
-                  </a>
-                  <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                    <Image src="/binance.png" alt="Binance"  width={30}      // required
-  height={30}/>
-                  </a>
-                </div>
-
-                <div className="payText">E-sewa: +977 9762486686</div>
-              </div>
-            )}
+           
           </section>
 
-          {/* Right - English panel (hidden if theater mode is active) */}
-          <aside className={`sidePanel rightPanel ${theaterMode ? "hidden" : ""}`}>
-            <h3 style={{textAlign:"center"}}>Message in English</h3>
-            <p>
-             Even Re. 1 or $ 1 helps more than you know. Your support lights up my journey. Thank you!
-            </p>
-
-            <div className="progressWrap">
-              <div className="progressLabel">0 - ${goal} • Currently: ${amount}</div>
-              <div className="progressBar">
-                <div className="progressFill" style={{ width: `${progressPercent}%` }} />
-              </div>
-              <div style={{ fontSize: 13, color: "#666", marginTop: 6 }}>{progressPercent}%</div>
-            </div>
- {/* 📜 Donor List */}
-            <div className="donorLink">
-              <a href="/record.xlsx" target="_blank" rel="noopener noreferrer">
-                📜 View Donor List
-              </a>
-            </div>
-
-            <div className="payments">
-              <a href={paymentLinks.esewa} target="_blank" rel="noopener noreferrer">
-                <Image src="/esewa.png" alt="E-sewa"  width={40}      // required
-  height={40}/>
-              </a>
-              <a href={paymentLinks.khalti} target="_blank" rel="noopener noreferrer">
-                <Image src="/kalti.png" alt="Khalti"  width={40}      // required
-  height={30}/>
-              </a>
-              <a href={paymentLinks.binance} target="_blank" rel="noopener noreferrer">
-                <Image src="/binance.png" alt="Binance"  width={30}      // required
-  height={30}/>
-              </a>
-            </div>
-
-            <div className="payText">E-sewa: +977 9762486686</div>
-          </aside>
+          
         </div>
 
 
@@ -419,29 +326,89 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
           gap: 20px;
           align-items: flex-start;
           padding: 0 18px;
-          max-width: 1100px;
+          max-width: 800px;
           margin: 0 auto;
         }
-
-        .sidePanel {
-          width: 250px;
-          border-radius: 12px;
-          padding: 14px;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-          text-align: center;
-         border: 2px solid currentColor; /* uses the current text color */
-        }
-
-
-        .leftPanel { align-self: flex-start; }
-        .rightPanel { align-self: flex-start;   font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-}
 
         .centerPanel {
           flex: 1;
           min-width: 300px;
           
         }
+
+.videoWrap.theater {
+  position: fixed;
+  top: 80px; /* below your header */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  height: 60vh;
+  background: #000;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: 0 0 18px rgba(0,0,0,0.7);
+  transition: all 0.35s ease;
+}
+
+.videoWrap.theater .videoFrame {
+  padding-bottom: 0;
+  height: 100%;
+}
+
+.videoWrap.theater iframe {
+  width: 100%;
+  height: 100%;
+}
+body.theater-active::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.7);
+  z-index: 9998;
+  transition: background 0.3s ease;
+}
+  .videoWrap,
+.videoWrap.theater {
+  transition: all 0.5s ease;
+}
+
+
+
+
+.closeTheaterBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  padding: 6px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  transition: background 0.2s;
+}
+
+.closeTheaterBtn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+@media (max-width: 768px) {
+  .closeTheaterBtn {
+    font-size: 20px;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+  }
+}
+
+
 
         .videoWrap {
           background: linear-gradient(180deg, #0f172a, #111827);
@@ -496,72 +463,8 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
           border: none;
           cursor: pointer;
         }
-        .theaterBtn.active { background: #000000ff; }
-
-        .progressWrap { margin-top: 8px; }
-        .progressLabel { font-size: 14px; margin-bottom: 6px; }
-        .progressBar {
-          width: 100%;
-          height: 10px;
-          background: #3f4b5725;
-          border-radius: 999px;
-          overflow: hidden;
+        .theaterBtn.active { background: #000000ff;
         }
-          
-        .progressFill {
-          height: 100%;
-          background: linear-gradient(90deg,#ff4d88,#ff99cc);
-        }
-
-        .payments {  
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          margin-top: 12px;
-          align-items: center;
-        }
-        .payments img {
-          width: 46px;
-          height: 34px;
-          object-fit: contain;
-          cursor: pointer;
-          filter: drop-shadow(0 6px 18px rgba(0,0,0,0.15));
-        }
-
-        .payText { margin-top: 8px; font-weight: 600; text-align: center }
-
-        .hidden { display: none; }
-
-        /* small screens: stack */
-        @media (max-width: 860px) {
-          .container { flex-direction: column; padding: 0 12px; }
-          .sidePanel { width: 100%; order: 3; }
-          .rightPanel { order: 4; }
-          .leftPanel { order: 2; }
-          .centerPanel { order: 1; }
-          .controlsRow { flex-direction: column; align-items: stretch; gap: 8px; }
-          .theaterBtn { width: 100%; }
-        }
-
-
-        .donorLink {
-          margin-top: 6px;
-          text-align: center;
-
-        }
-          .englishBelow {
-          margin-top: 14px;
-          padding: 12px;
-          border-radius: 10px;
-          font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-}
-        
-        .donorLink a {
-          font-size: 15px;
-          color: #ff5e6cff;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-
-}
         .shareBar {
           display: flex;
           align-items: center;

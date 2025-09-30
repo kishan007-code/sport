@@ -179,7 +179,7 @@ live sports streaming, watch cricket online, football HD streams, free sports co
   <strong className="quick-title">Social Media Links</strong>
   <div className="social-icons">
     <a
-      href="https://www.facebook.com/profile.php?id=61577032744088"
+      href="https://www.facebook.com/"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Facebook"
@@ -188,7 +188,7 @@ live sports streaming, watch cricket online, football HD streams, free sports co
     </a>
 
     <a
-      href="https://www.instagram.com/kai.se7en/"
+      href="https://www.instagram.com/"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Instagram"
@@ -197,7 +197,7 @@ live sports streaming, watch cricket online, football HD streams, free sports co
     </a>
 
     <a
-      href="https://www.tiktok.com/@kai7berg"
+      href="https://www.tiktok.com/"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="TikTok"
@@ -210,7 +210,7 @@ live sports streaming, watch cricket online, football HD streams, free sports co
             <div>
               <strong>Get in Touch</strong>
               <br />xxxxxxx
-              <br /> joshijona119@gmail.com
+              <br /> j@gmail.com
               <br /> Brussels, Belgium
             </div>
             <div>
