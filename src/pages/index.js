@@ -169,7 +169,7 @@ Live sports streaming, Watch cricket live, Football live stream, crichd Live spo
 live sports streaming, watch cricket online, football HD streams, free sports coverage, Premier League live, cricket match today, UCL streaming, La Liga live.
 </p> 
 
-<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> Kaishports live doesn't host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. <br/> Contact us for any takedowns.</p>
+<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> Kaishports live does not host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. <br/> Contact us for any takedowns.</p>
 
 
         {/* Footer */}
