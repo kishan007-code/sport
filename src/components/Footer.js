@@ -8,13 +8,13 @@ export default function Footer() {
           <div className="block">
             <strong className="block-title">Social Media</strong>
             <div className="social-icons">
-              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a href="https://www.facebook.com/profile.php?id=61577032744088" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <Image src="/fb.png" alt="Facebook" width={30} height={30}/>
               </a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="https://www.instagram.com/kai.se7en/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <Image src="/insta.png" alt="Instagram" width={30} height={30}/>
               </a>
-              <a href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <a href="https://www.tiktok.com/@kai7berg" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
                 <Image src="/tktk.png" alt="TikTok" width={30} height={30}/>
               </a>
             </div>

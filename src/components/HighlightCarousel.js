@@ -12,13 +12,44 @@ import Link from "next/link";
 
 const SLIDE_INTERVAL = 5000;
 
+/**
+ * Match schedule for status badges.
+ * Use real times (ISO with timezone).
+ * durationMinutes = how long it's considered LIVE.
+ */
+const slideSchedule = {
+  video1: {
+    startTime: "2025-10-04T19:45:00+05:45",
+    durationMinutes: 120,
+  },
+  video3: {
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+  },
+  video4: {
+    startTime: "2025-10-04T19:45:00+05:45",
+    durationMinutes: 120,
+  },
+};
+
+function computeStatus(id, now = new Date()) {
+  const meta = slideSchedule[id];
+  if (!meta) return "UNKNOWN";
+  const start = new Date(meta.startTime);
+  if (isNaN(start.getTime())) return "UNKNOWN";
+  const end = new Date(start.getTime() + meta.durationMinutes * 60000);
+  if (now < start) return "UPCOMING";
+  if (now >= start && now < end) return "LIVE";
+  return "ENDED";
+}
+
 const slides = [
   {
     id: "video1",
-    title: "Al Nassr Game",
+    title: "Arsenal Game",
     tag: "#ACL",
-    img: "/nassr.png",
-    alt: "Al Nassr",
+    img: "/arsenal.png",
+    alt: "Arsenal",
   },
   {
     id: "video3",
@@ -29,10 +60,10 @@ const slides = [
   },
   {
     id: "video4",
-    title: "Man City vs Monaco",
-    tag: "#UCL",
-    img: "/city.png",
-    alt: "Man city game",
+    title: "Liverpool vs Chelsea",
+    tag: "#Premier League",
+    img: "/livche.png",
+    alt: "Liverpool and chelsea clash",
   },
 ];
 
@@ -43,37 +74,77 @@ export default function HeroCarousel() {
   const timerRef = useRef(null);
   const progressRef = useRef(null);
 
-  const scrollToIndex = useCallback(
-  (i) => {
-    if (!trackRef.current) return;
-    const track = trackRef.current;
-    const slideWidth = track.offsetWidth; // full width of one slide
-    track.scrollTo({
-      left: i * slideWidth,
-      behavior: "smooth",
-    });
-    setIndex(i);
-  },
-  []
-);
+  // status + viewers
+  const [now, setNow] = useState(() => new Date());
+  const [statuses, setStatuses] = useState({});
+  const [viewCounts, setViewCounts] = useState({}); // { videoId: number }
 
+  // Load existing view counts
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("carouselViewCounts");
+      if (raw) {
+        setViewCounts(JSON.parse(raw));
+      }
+    } catch (_) {}
+  }, []);
+
+  // Update statuses every 30s
+  useEffect(() => {
+    const update = () => {
+      const n = new Date();
+      setNow(n);
+      const map = {};
+      slides.forEach((s) => {
+        map[s.id] = computeStatus(s.id, n);
+      });
+      setStatuses(map);
+    };
+    update();
+    const int = setInterval(update, 30000);
+    return () => clearInterval(int);
+  }, []);
+
+  const incrementView = useCallback((id) => {
+    setViewCounts((prev) => {
+      const next = { ...prev, [id]: (prev[id] || 0) + 1 };
+      try {
+        localStorage.setItem("carouselViewCounts", JSON.stringify(next));
+      } catch (_) {}
+      return next;
+    });
+  }, []);
+
+  const scrollToIndex = useCallback(
+    (i) => {
+      if (!trackRef.current) return;
+      const track = trackRef.current;
+      const slideWidth = track.offsetWidth;
+      track.scrollTo({
+        left: i * slideWidth,
+        behavior: "smooth",
+      });
+      setIndex(i);
+    },
+    []
+  );
 
   // Auto cycle
- useEffect(() => {
-  if (isUserScrolling) return;
-  timerRef.current = setInterval(() => {
-    const next = (index + 1) % slides.length;
-    scrollToIndex(next);
-  }, SLIDE_INTERVAL);
-  return () => clearInterval(timerRef.current);
-}, [index, isUserScrolling, scrollToIndex]);
+  useEffect(() => {
+    if (isUserScrolling) return;
+    timerRef.current = setInterval(() => {
+      const next = (index + 1) % slides.length;
+      scrollToIndex(next);
+    }, SLIDE_INTERVAL);
+    return () => clearInterval(timerRef.current);
+  }, [index, isUserScrolling, scrollToIndex]);
 
   // Progress bar animation
   useEffect(() => {
     if (!progressRef.current) return;
-    // Restart animation by forcing reflow
     progressRef.current.style.animation = "none";
-   
+    // force reflow
+    // eslint-disable-next-line no-unused-expressions
     progressRef.current.offsetHeight;
     progressRef.current.style.animation = `slideProgress ${SLIDE_INTERVAL}ms linear forwards`;
   }, [index]);
@@ -88,7 +159,6 @@ export default function HeroCarousel() {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         setIsUserScrolling(false);
-        // Snap index recompute
         const children = Array.from(el.children);
         const nearest = children.reduce(
           (acc, child, i) => {
@@ -112,33 +182,54 @@ export default function HeroCarousel() {
       </div>
 
       <div className="track" ref={trackRef}>
-        {slides.map((s, i) => (
-          <article
-            key={s.id}
-            className="slide"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} of ${slides.length}`}
-          >
-            <Link href={`/video/${s.id}`} className="media">
-              <Image
-                src={s.img}
-                alt={s.alt}
-                fill
-                sizes="(max-width: 600px) 90vw, (max-width: 1000px) 80vw, 1000px"
-                priority={i === 0}
-                style={{ objectFit: "cover" }}
-              />
-              <div className="layer" />
-              <div className="content">
-                <span className="tag">{s.tag}</span>
-                <h3 className="title" aria-live="polite">
-                  {s.title}
-                </h3>
-                <span className="cta">Watch Now →</span>
-              </div>
-            </Link>
-          </article>
-        ))}
+        {slides.map((s, i) => {
+          const status = statuses[s.id] || "UNKNOWN";
+          const views = viewCounts[s.id] || 0;
+
+          return (
+            <article
+              key={s.id}
+              className="slide"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} of ${slides.length}`}
+            >
+              <Link
+                href={`/video/${s.id}`}
+                className="media"
+                onClick={() => incrementView(s.id)}
+              >
+                <Image
+                  src={s.img}
+                  alt={s.alt}
+                  fill
+                  sizes="(max-width: 600px) 90vw, (max-width: 1000px) 80vw, 1000px"
+                  priority={i === 0}
+                  style={{ objectFit: "cover" }}
+                />
+                <div className="layer" />
+
+                {/* NEW: Status badge */}
+                <div className={`badge badge-${status.toLowerCase()}`}>
+                  {status === "LIVE" && <span className="pulse-dot" />}
+                  {status}
+                </div>
+
+                {/* NEW: View count */}
+                <div className="view-count">
+                  {views} view{views === 1 ? "" : "s"}
+                </div>
+
+                <div className="content">
+                  <span className="tag">{s.tag}</span>
+                  <h3 className="title" aria-live="polite">
+                    {s.title}
+                  </h3>
+                  <span className="cta">Watch Now →</span>
+                </div>
+              </Link>
+            </article>
+          );
+        })}
       </div>
 
       <div className="index-indicator" aria-hidden="true">
@@ -218,13 +309,12 @@ export default function HeroCarousel() {
         .layer {
           position: absolute;
           inset: 0;
-          background:
-            linear-gradient(
-              140deg,
-              rgba(0, 0, 0, 0.55) 0%,
-              rgba(0, 0, 0, 0.15) 50%,
-              rgba(0, 0, 0, 0.7) 100%
-            );
+          background: linear-gradient(
+            140deg,
+            rgba(0, 0, 0, 0.55) 0%,
+            rgba(0, 0, 0, 0.15) 50%,
+            rgba(0, 0, 0, 0.7) 100%
+          );
           mix-blend-mode: overlay;
         }
 
@@ -251,7 +341,7 @@ export default function HeroCarousel() {
           backdrop-filter: blur(6px);
           color: #000000ff;
           font-weight: bold;
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
           text-transform: uppercase;
         }
 
@@ -263,8 +353,8 @@ export default function HeroCarousel() {
           background: linear-gradient(90deg, #ffffff, #d4dde6);
           -webkit-background-clip: text;
           color: white;
-font-family: "Times New Roman", serif; 
-         text-shadow: 0 6px 38px rgba(0, 0, 0, 0.92);
+          font-family: "Times New Roman", serif;
+          text-shadow: 0 6px 38px rgba(0, 0, 0, 0.92);
         }
 
         .cta {
@@ -280,9 +370,78 @@ font-family: "Times New Roman", serif;
           box-shadow: 0 4px 18px -6px rgba(255, 122, 30, 0.6);
           transition: transform 0.4s, box-shadow 0.5s;
         }
-          .cta:hover {
-   border: 2px solid #21c60cff;
-             }
+        .cta:hover {
+          border: 2px solid #21c60cff;
+        }
+
+        /* NEW: status badge */
+        .badge {
+          position: absolute;
+          top: 10px;
+          left: 12px;
+          padding: 6px 12px;
+          font-size: 0.62rem;
+          letter-spacing: 1px;
+          font-weight: 700;
+          border-radius: 10px;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          color: #ffffff;
+          text-transform: uppercase;
+          background: rgba(0, 0, 0, 0.5);
+          backdrop-filter: blur(6px);
+          box-shadow: 0 2px 8px -2px rgba(0,0,0,0.5);
+        }
+        .badge-live {
+          background: linear-gradient(90deg,#ff3d3d,#ff7a1e);
+        }
+        .badge-upcoming {
+          background: linear-gradient(135deg,#2653f5,#6d3df8);
+        }
+        .badge-ended {
+          background: linear-gradient(135deg,#555,#2f3235);
+        }
+        .badge-unknown {
+          background: rgba(0, 0, 0, 0.55);
+        }
+        .pulse-dot {
+          position: relative;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: #fff;
+        }
+        .pulse-dot::after {
+          content: "";
+          position: absolute;
+            inset: 0;
+          border-radius: inherit;
+          background: rgba(255,255,255,0.6);
+          animation: pulseBadge 1.1s infinite ease-out;
+        }
+        @keyframes pulseBadge {
+          0% { transform: scale(1); opacity: 1; }
+          70% { transform: scale(2); opacity: 0; }
+          100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* NEW: view count */
+        .view-count {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+          padding: 6px 10px;
+          font-size: 0.6rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          border-radius: 10px;
+          background: rgba(255,255,255,0.18);
+          color: #000;
+          backdrop-filter: blur(6px);
+          box-shadow: 0 2px 6px -2px rgba(0,0,0,0.5);
+        }
 
         .progress {
           position: absolute;
@@ -349,10 +508,10 @@ font-family: "Times New Roman", serif;
           }
         }
         @media (max-width: 560px) {
-            .hero-carousel {
-              border-radius: 22px;
-              aspect-ratio: 16 / 10;
-            }
+          .hero-carousel {
+            border-radius: 22px;
+            aspect-ratio: 16 / 10;
+          }
           .content {
             top: 60%;
             gap: 12px;
@@ -363,6 +522,10 @@ font-family: "Times New Roman", serif;
           .cta {
             font-size: 0.7rem;
             padding: 7px 14px;
+          }
+          .badge, .view-count {
+            font-size: 0.56rem;
+            padding: 5px 9px;
           }
         }
       `}</style>

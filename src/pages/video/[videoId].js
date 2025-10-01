@@ -505,7 +505,7 @@ export default function VideoPage() {
                 ? "Make sure to try another source if the current one does not work."
                 : status === "UPCOMING"
                 ? "Match not live—yet."
-                : "Match ended—-."}
+                : "Match ended—."}
             </p>
            .
            
@@ -515,6 +515,7 @@ export default function VideoPage() {
           Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live
           scores, and match highlights — powered by <b style={{ color: "red" }}>Kaishenborg</b>.
         </p>
+        <br/> <strong>Note:</strong> Kaishports live does not host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. Contact us for any takedowns.
           </section>
         </main>
 

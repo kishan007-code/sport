@@ -20,51 +20,58 @@ const categoryMatches = {
   football: [
     {
       id: "video1",
-      title: "Al Zawraa vs Al Nassr FC",
-      subtitle: "ACL",
-      time: "2025-10-02T00:00:00+05:45",
+      title: "Fenerbahce vs Nice",
+      subtitle: "Europa League",
+      time: "2025-10-02T22:30:00+05:45",
       durationMinutes: 120,
     },
     {
       id: "video2",
-      title: "Arsenal vs Olympiacos",
-      subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      title: "Roma vs Lille",
+      subtitle: "Europa League",
+      time: "2025-10-03T22:30:00+05:45",
       durationMinutes: 120,
     },
      {
       id: "video3",
-      title: "Barcelona vs PSG",
-      subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      title: "Real Betis vs Razgrad",
+      subtitle: "Europa League",
+      time: "2025-10-02T22:30:00+05:45",
       durationMinutes: 120,
     },
      {
       id: "video4",
-      title: "Man City vs Monaco",
-      subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      title: "Dynamo Kyiv vs Crystal Palace",
+      subtitle: "Conference League",
+      time: "2025-10-02T22:30:00+05:45",
       durationMinutes: 120,
     },
      {
       id: "video5",
-      title: "Juventus vs Villareal",
+      title: "Feyenoord vs Aston Villa",
       subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      time: "2025-10-03T00:45:00+05:45",
       durationMinutes: 120,
     },
      {
       id: "video6",
-      title: "Napoli vs Sporting CP",
-      subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      title: "Arsenal vs Westham",
+      subtitle: "Premier League",
+      time: "2025-10-04T19:45:00+05:45",
       durationMinutes: 120,
     },
      {
       id: "video7",
-      title: "Dortmund vs Athletic Club",
-      subtitle: "UCL Group Stage",
-      time: "2025-10-2T00:45:00+05:45",
+      title: "Man United vs Sunderland",
+      subtitle: "Premier League",
+      time: "2025-10-04T19:45:00+05:45",
+      durationMinutes: 120,
+    },
+    {
+      id: "video7",
+      title: "Liverpool vs Chelsea",
+      subtitle: "Premier League",
+      time: "2025-10-04T19:45:00+05:45",
       durationMinutes: 120,
     },
   ],
@@ -245,7 +252,8 @@ export default function CategoryPage() {
            Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — Powered by <b style={{color: "red" }}>Kai7borg</b>. Watch your favorite teams in action now!
           </p>
           <p className="note">
-            <strong>Note:</strong> We do not host media, only aggregate or link externally. Contact for takedowns.
+            <strong>Note:</strong>  Kaishports live does not host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above.
+Contact us for any takedowns.
           </p>
         </section>
       </main>

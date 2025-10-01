@@ -82,12 +82,16 @@ export default function Home() {
           </Link>
         </section>
 
-        {/* About Section */}
-        <p className="about-title"><strong>ABOUT</strong></p>
-        <p>
-          Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live
-          scores, and match highlights — powered by <b style={{ color: "red" }}>Kaishenborg</b>.
-        </p>
+        <section className="about centered">
+          <h3>About</h3>
+          <p>
+           Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — Powered by <b style={{color: "red" }}>Kai7borg</b>. Watch your favorite teams in action now!
+          </p>
+          <p className="note">
+            <strong>Note:</strong>  Kaishports live does not host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above.
+Contact us for any takedowns.
+          </p>
+        </section>
       </main>
 
       <Footer />
