@@ -144,7 +144,7 @@ export default function HeroCarousel() {
     if (!progressRef.current) return;
     progressRef.current.style.animation = "none";
     // force reflow
-    // eslint-disable-next-line no-unused-expressions
+   
     progressRef.current.offsetHeight;
     progressRef.current.style.animation = `slideProgress ${SLIDE_INTERVAL}ms linear forwards`;
   }, [index]);
