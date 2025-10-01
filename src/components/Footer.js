@@ -1,14 +1,12 @@
-// src/components/Footer.js
 import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div>
-      {/* Footer */}
-      <footer className="footer">
-        <div className="footer-columns">
-          <div className="quick-links">
-            <strong className="quick-title">Social Media Links</strong>
+    <footer className="footer">
+      <div className="footer-inner">
+        <div className="cols">
+          <div className="block">
+            <strong className="block-title">Social Media</strong>
             <div className="social-icons">
               <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <Image src="/fb.png" alt="Facebook" width={30} height={30}/>
@@ -22,133 +20,111 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <strong>Get in Touch</strong>
-            <br /> xxxxxxx
-            <br /> j@gmail.com
-            <br /> Brussels, Belgium
+          <div className="block">
+            <strong className="block-title">Get in Touch</strong>
+            <p className="mini">
+              xxxxxxx<br />
+              j@gmail.com<br />
+              Brussels, Belgium
+            </p>
           </div>
 
-          <div>
-            <strong>Chief Executive Officer</strong>
-            <br /> Kai_7
-            <br /><br />
+          <div className="block">
+            <strong className="block-title">Chief Executive Officer</strong>
+            <p className="mini">Kai_7</p>
           </div>
         </div>
 
-        <div className="footer-bottom">
+        <div className="divider" aria-hidden="true" />
+        <div className="foot-note">
           ©2026 kaisenberg
         </div>
-      </footer>
-     
+      </div>
 
       <style jsx>{`
-        
-/* ================= FOOTER ================= */
-.footer {
-  background: #040029;
-  color: rgb(255, 255, 255);
-  padding: 20px 6%;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-position: relative;
-}
-
-.footer-columns {
-  display: flex;
-    gap: 100px;
-  line-height: 1.7;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-
-}
-@media (max-width: 700px) {
-  .footer-columns {
-    flex-direction: column;
-    gap: 30px;
-    align-items: center;
-    text-align: center;
-  }
-}
-.footer-bottom {
-  text-align: center;
-  margin-top: 20px;
-  opacity: 0.7;
-  position: relative;
-align-items: center;
-}
-
-
-.quick-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.quick-title {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  color: #fff;
-  font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-}
-
-.social-icons {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  align-items: center;
-}
-
-.social-icons a {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.social-icons a img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.social-icons a:hover {
-  transform: translateY(-4px) scale(1.15);
-  background: linear-gradient(135deg, #ff0050, #ff6600);
-  box-shadow: 0 6px 20px rgba(255, 0, 80, 0.4);
-}
-
-.social-icons a:hover img {
-  transform: rotate(-10deg) scale(1.1);
-  filter: brightness(1) invert(0);
-}
-
-
-/* Mobile tweaks */
-@media (max-width: 600px) {
-  .social-icons {
-    gap: 12px;
-  }
-
-  .social-icons a {
-    width: 32px;
-    height: 32px;
-  }
-
-  .social-icons a img {
-    width: 18px;
-    height: 18px;
-  }
-}
-
+        .footer {
+          background: linear-gradient(160deg,#040029,#070435 60%,#06002f);
+          color: #ffffff;
+          padding: 44px 6% 54px;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+          position: relative;
+          overflow: hidden;
+        }
+        .footer::before {
+          content:'';
+          position: absolute;
+          top:-140px;
+          right:-120px;
+          width:380px;
+          height:380px;
+          background: radial-gradient(circle,#5a5dff22,#0000);
+          filter: blur(4px);
+          opacity:.65;
+          pointer-events:none;
+        }
+        .footer-inner {
+          max-width: 1060px;
+          margin: 0 auto;
+          position: relative;
+        }
+        .cols {
+          display: flex;
+          justify-content: center;
+          gap: clamp(40px, 10vw, 140px);
+          flex-wrap: wrap;
+          text-align: center;
+        }
+        .block-title {
+          font-size: 1.05rem;
+          display: block;
+          margin-bottom: 12px;
+          letter-spacing: .6px;
+        }
+        .mini {
+          margin: 0;
+          line-height: 1.6;
+          font-size: .82rem;
+          opacity: .85;
+        }
+        .social-icons {
+          display: flex;
+          gap: 16px;
+          justify-content: center;
+        }
+        .social-icons a {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #1a1a1a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform .4s, background .45s, box-shadow .45s;
+          box-shadow: 0 4px 14px -6px rgba(0,0,0,.55);
+        }
+        .social-icons a:hover {
+          transform: translateY(-6px) scale(1.12);
+          background: linear-gradient(135deg,#ff0050,#ff9900);
+          box-shadow: 0 8px 24px -8px rgba(255,0,80,.55);
+        }
+        .divider {
+          width: 100%;
+          height: 1px;
+          background: linear-gradient(90deg,transparent,#ffffff33,transparent);
+          margin: 40px 0 24px;
+        }
+        .foot-note {
+          text-align: center;
+          font-size: .75rem;
+          letter-spacing: .8px;
+          opacity: .75;
+        }
+        @media (max-width: 680px) {
+          .footer { padding: 42px 26px 60px; }
+          .social-icons { gap: 14px; }
+          .social-icons a { width: 36px; height: 36px; }
+        }
       `}</style>
-      </div>
+    </footer>
   );
 }

@@ -1,522 +1,793 @@
-// src/pages/video/[videoId].js
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-import Layout from "@/components/Layout";
-import { AlignCenter, Bold } from "lucide-react";
-import Image from "next/image";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import Head from "next/head";
+import Layout from "@/components/Layout";
 
-const videoData = {
+/* --------------------------------------------------
+   YouTube URL sanitizer to reduce Error 153 issues
+-------------------------------------------------- */
+function sanitizeYouTube(url, origin) {
+  if (!url) return url;
+  const YT_DOMAINS = ["youtube.com", "youtu.be", "www.youtube.com", "m.youtube.com"];
+  try {
+    const u = new URL(url);
+    if (!YT_DOMAINS.some(d => u.hostname.includes(d))) return url;
+
+    // Extract video id
+    let videoId = "";
+    if (u.hostname.includes("youtu.be")) {
+      videoId = u.pathname.replace("/", "");
+    } else if (u.pathname.startsWith("/embed/")) {
+      videoId = u.pathname.split("/embed/")[1].split("/")[0];
+    } else if (u.searchParams.get("v")) {
+      videoId = u.searchParams.get("v");
+    } else {
+      // fallback attempt
+      const parts = u.pathname.split("/");
+      videoId = parts.pop() || "";
+    }
+
+    if (!videoId) return url; // fallback unchanged
+
+    // Build canonical embed
+    const params = new URLSearchParams({
+      enablejsapi: "1",
+      rel: "0",
+      playsinline: "1",
+      modestbranding: "1",
+      autohide: "1"
+    });
+    if (origin) params.set("origin", origin);
+
+    return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+  } catch {
+    return url;
+  }
+}
+
+/**
+ * VIDEO DEFINITIONS
+ * BEFORE + AFTER: all 4 = defaultSource
+ * LIVE WINDOW: all 4 = gameSources (fallback to default if missing)
+ * Keep raw definitions; sanitation done at runtime.
+ */
+const rawVideoDefinitions = {
   video1: {
-    title: "Nepal vs West Indies 3",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://www.youtube.com/embed/xeY2X-1tAQM?si=4g4HyhhATCP_9mvq", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/xeY2X-1tAQM?si=4g4HyhhATCP_9mvq", // link 4
+    title: "Al Zawraa vs Al Nassr FC",
+    startTime: "2025-10-02T00:00:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
+    gameSources: [
+      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
+      "https://www.youtube.com/em",
+      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
+      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS"
     ],
+    tags: ["Saudi League", "Football", "Al Nassr", "Asian Champions League", "ACL"]
   },
-
   video2: {
-    title: "Real Madrid UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://embedsports.top/embed/admin/ppv-kairat-almaty-vs-real-madrid/1", // link 2 (replace with your alternate)
-      "https://embedsports.top/embed/alpha/kairat-almaty-vs-real-madrid/1", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    title: "Arsenal vs Olympiacos",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://embedsports.top/embed/admin/ppv-arsenal-vs-olympiacos/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/admin/ppv-arsenal-vs-olympiacos/1"
     ],
+    tags: ["UCL", "Football", "Arsenal", "Olympiacos"]
   },
   video3: {
-    title: "Atletico UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://embedsports.top/embed/admin/ppv-atleti-vs-frankfurt/1", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://embedsports.top/embed/charlie/atletico-madrid-vs-eintracht-frankfurt-1451040/1", // link 4
+    title: "Barcelona vs PSG",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?rel=0",
+    gameSources: [
+      "https://embedsports.top/embed/admin/ppv-barcelona-vs-paris/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/1",
+      "ttps://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/4"
     ],
+    tags: ["Barcelona", "PSG", "UCL"]
   },
   video4: {
-    title: "Chelsea UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1", // link 1
-      "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    title: "Man City vs Monaco",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1",
+      "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1",
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1",
+      "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1"
     ],
+    tags: ["Man City", "Monaco", "UCL"]
   },
   video5: {
-    title: "Liverpool UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://embedsports.top/embed/admin/ppv-galatasaray-vs-liverpool/1", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://embedsports.top/embed/alpha/galatasaray-u19-vs-liverpool-u19/2", // link 4
+    title: "Juventus vs Villareal",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?rel=0",
+    gameSources: [
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
+    tags: ["Juventus", "Villareal", "UCL"]
   },
   video6: {
-    title: "Inter Milan UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://embedsports.top/embed/alpha/internazionale-vs-slavia-prague/2", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://embedsports.top/embed/alpha/internazionale-vs-slavia-prague/1", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    title: "Napoli vs Sporting CP",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/zmTh-c1s6EI?rel=0",
+    gameSources: [
+      "https://embedsports.top/embed/admin/ppv-napoli-vs-sporting-cp/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/alpha/napoli-vs-sporting-cp/1"
     ],
+    tags: ["Napoli", "Sporting Lisbon", "UCL"]
   },
   video7: {
-    title: "Bayern Munich UCL Game",
-    // multiple sources for the same video - buttons switch between these
-    sources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 1
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 2 (replace with your alternate)
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 3
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=f12UZb2o7eIfayma", // link 4
+    title: "Dortmund vs Athletic Club",
+    startTime: "2025-10-02T00:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1",
+      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
+      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1"
     ],
-  },
-  // add other videoId entries as needed
+    tags: ["Dortmund", "Athletic Club", "UCL"]
+  }
 };
+
+/* ---------- STATUS HELPERS ---------- */
+function computeStatus(startTime, durationMinutes, now = new Date()) {
+  if (!startTime || !durationMinutes) return "UNKNOWN";
+  const start = new Date(startTime);
+  if (isNaN(start.getTime())) return "UNKNOWN";
+  const end = new Date(start.getTime() + durationMinutes * 60000);
+  if (now < start) return "UPCOMING";
+  if (now >= start && now < end) return "LIVE";
+  return "ENDED";
+}
+
+function formatCountdown(startTime, now = new Date()) {
+  if (!startTime) return "";
+  const start = new Date(startTime);
+  const diff = start - now;
+  if (isNaN(start.getTime())) return "";
+  if (diff <= 0) return "Starting...";
+  const totalSec = Math.floor(diff / 1000);
+  const d = Math.floor(totalSec / 86400);
+  const h = Math.floor((totalSec % 86400) / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  if (d > 0) return `${d}d ${h}h`;
+  if (h > 0) return `${h}h ${m}m`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+}
+
+/**
+ * 4 sources logic:
+ * - LIVE: gameSources (fallback each to default)
+ * - Otherwise: all default
+ */
+function buildSources(video, status) {
+  if (!video) return [];
+  const def = video.defaultSource;
+  if (status !== "LIVE") return [def, def, def, def];
+  const gs = video.gameSources || [];
+  return [0, 1, 2, 3].map(i => gs[i] || def);
+}
+
 export default function VideoPage() {
-    const router = useRouter();
+  const router = useRouter();
   const { videoId } = router.query;
 
-   const matchTitle = "Live sports streaming";
-  const team1 = "Football Match live today";
-  const team2 = "Barcelona Live";
-  const categoryName = "World cup || UCL";
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [now, setNow] = useState(() => new Date());
+  const [theater, setTheater] = useState(false);
+  const [pageUrl, setPageUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [iframeError, setIframeError] = useState(false);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [origin, setOrigin] = useState("");
+  const loadTimeoutRef = useRef(null);
 
-  const [selectedSourceIndex, setSelectedSourceIndex] = useState(0);
-  const [theaterMode, setTheaterMode] = useState(false);
-    const [currentUrl, setCurrentUrl] = useState("");   // add the URL
+  // Tick
+  useEffect(() => {
+    const t = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(t);
+  }, []);
 
-useEffect(() => {
-  if (typeof window !== "undefined") {
-    setCurrentUrl(window.location.href);
-  }
-}, [router.asPath]);
-
-
-
-useEffect(() => {
-  if (theaterMode) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-}, [theaterMode]);
-
-useEffect(() => {
-  if (theaterMode) {
-    document.body.classList.add("theater-active");
-  } else {
-    document.body.classList.remove("theater-active");
-  }
-}, [theaterMode]);
-
-useEffect(() => {
-  const handleKeyDown = (e) => {
-    if (e.key === "Escape" && theaterMode) {
-      setTheaterMode(false);
+  // Page URL + origin for YouTube
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setPageUrl(window.location.href);
+      setOrigin(window.location.origin);
     }
-  };
-  window.addEventListener("keydown", handleKeyDown);
-  return () => window.removeEventListener("keydown", handleKeyDown);
-}, [theaterMode]);
+  }, [router.asPath]);
 
+  // Get raw video
+  const rawVideo = videoId ? rawVideoDefinitions[videoId] : null;
 
+  // Sanitize video sources once origin known (keeps other providers unchanged)
+  const video = useMemo(() => {
+    if (!rawVideo) return null;
+    const safeDefault = sanitizeYouTube(rawVideo.defaultSource, origin);
+    const safeGame = (rawVideo.gameSources || []).map(src =>
+      sanitizeYouTube(src, origin)
+    );
+    return {
+      ...rawVideo,
+      defaultSource: safeDefault,
+      gameSources: safeGame
+    };
+  }, [rawVideo, origin]);
+
+  const status = useMemo(
+    () => (video ? computeStatus(video.startTime, video.durationMinutes, now) : "UNKNOWN"),
+    [video, now]
+  );
+
+  const sources = useMemo(() => buildSources(video, status), [video, status]);
+
+  // Reset selection on video/status change
+  useEffect(() => {
+    setSelectedIndex(0);
+    setIframeError(false);
+    setIframeLoaded(false);
+  }, [videoId, status]);
+
+  // Index bounds
+  useEffect(() => {
+    if (selectedIndex > sources.length - 1) setSelectedIndex(0);
+  }, [sources, selectedIndex]);
+
+  const currentEmbed = sources[selectedIndex] || "";
+
+  // Theater
+  useEffect(() => {
+    if (theater) {
+      document.body.classList.add("theater-active");
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.classList.remove("theater-active");
+      document.body.style.overflow = "";
+    }
+  }, [theater]);
 
   useEffect(() => {
-    setSelectedSourceIndex(0);
-  }, [videoId]);
+    const esc = e => e.key === "Escape" && theater && setTheater(false);
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [theater]);
 
-  if (!videoId) return null;
+  // Iframe load fallback
+  useEffect(() => {
+    setIframeError(false);
+    setIframeLoaded(false);
+    if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
+    let canceled = false;
+    loadTimeoutRef.current = setTimeout(() => {
+      if (!canceled) { // If iframe hasn't called onLoad yet, error out
+        setIframeError(true);
+      }},10000);
 
-  const video = videoData[videoId];
-  if (!video) return <p style={{ textAlign: "center", marginTop: 60 }}>Video not found</p>;
+    return () => {
+      canceled = true;
+      if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
+    };
+  }, [currentEmbed]);
 
-  const currentEmbed = video.sources[selectedSourceIndex];
+  const handleIframeLoad = () => {
+    setIframeLoaded(true);
+    setIframeError(false);
+    if (loadTimeoutRef.current) clearTimeout(loadTimeoutRef.current);
+  };
+  const handleIframeError = () => setIframeError(true);
 
+  const countdown = status === "UPCOMING" && video
+    ? formatCountdown(video.startTime, now)
+    : null;
+
+  const liveElapsed = useMemo(() => {
+    if (status !== "LIVE" || !video) return null;
+    const start = new Date(video.startTime);
+    if (isNaN(start.getTime())) return null;
+    return `${Math.floor((now - start) / 60000)}m`;
+  }, [status, video, now]);
+
+  const shareCopy = useCallback(() => {
+    if (!pageUrl) return;
+    navigator.clipboard.writeText(pageUrl).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1400);
+    });
+  }, [pageUrl]);
+
+  if (!videoId) {
+    return (
+      <Layout>
+        <main style={{ padding: "140px 24px", textAlign: "center" }}>
+          <p>Loading...</p>
+        </main>
+      </Layout>
+    );
+  }
+  if (!video) {
+    return (
+      <Layout>
+        <main style={{ padding: "140px 24px", textAlign: "center" }}>
+          <h2>Stream Not Found</h2>
+          <p>Check the URL or try another match.</p>
+        </main>
+      </Layout>
+    );
+  }
+
+  const canonical = `https://kaisportslive.vercel.app/video/${videoId}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    name: video.title,
+    startDate: video.startTime,
+    eventStatus:
+      status === "LIVE"
+        ? "https://schema.org/EventInProgress"
+        : status === "ENDED"
+        ? "https://schema.org/EventCompleted"
+        : "https://schema.org/EventScheduled",
+    organizer: { "@type": "Organization", name: "KaiSportsLive" },
+    description: `${video.title} status: ${status}`
+  };
 
   return (
-  <>    
-  <Head>
-        <title>{`${matchTitle} | KaiSportsLive`}</title>
+    <>
+      <Head>
+        <title>
+          {video.title} {status === "LIVE" ? "| LIVE Now" : "| KaiSportsLive"}
+        </title>
         <meta
           name="description"
-          content={`Watch ${team1} vs ${team2} live in HD. ${categoryName} streaming,  Cricket, Nepal cricket, world cup, Champions league only at KaiSportsLive.`}
+          content={`${status === "LIVE" ? "LIVE NOW: " : ""}${video.title} stream.`}
         />
         <meta
           name="keywords"
-          content={`${matchTitle}, ${team1} vs ${team2} live, ${categoryName} stream, Unity Cup 2025, HD live sports`}
+          content={`${video.title}, ${(video.tags || []).join(", ")}, live stream, KaiSportsLive`}
         />
-        <meta property="og:title" content={`${matchTitle} | KaiSportsLive`} />
+        <meta property="og:title" content={`${video.title} | KaiSportsLive`} />
         <meta
           property="og:description"
-          content={`Live streaming of ${team1} vs ${team2}. Watch in HD now on KaiSportsLive.`}
+          content={`${status === "LIVE" ? "LIVE NOW: " : ""}${video.title}`}
         />
-        <meta
-          property="og:url"
-          content={`https://kaisportslive.vercel.app/video/${videoId}`}
-        />
+        <meta property="og:url" content={canonical} />
         <meta property="og:type" content="video.other" />
+        <link rel="canonical" href={canonical} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </Head>
-
-  <Layout>
-      <main style={{ paddingTop: 80, paddingBottom: 50, minHeight: "85vh" }}>
-
-        {/* Social Join Buttons Section */}
-<div className="social-join-container">
-  <a
-    href="https://t.me/kai_se7en"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn telegram"
-    aria-label="Join us on Telegram"
-  >
-    <Image src="/telegram.png" alt="Telegram" className="social-icon" width={728}      // required
-  height={90}      />
-    <span>Telegram</span>
-  </a>
-
-  <a
-    href="https://discord.gg/YOUR_INVITE"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn discord"
-    aria-label="Join us on Discord"
-  >
-    <Image src="/discord.png" alt="Discord" className="social-icon"
-    width={728}      // required
-  height={90}      // required
-   />
-    <span>Discord</span>
-  </a>
-
-  <a
-    href="https://chat.whatsapp.com/YOUR_GROUP_LINK"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn whatsapp"
-    aria-label="Join us on WhatsApp"
-  >
-    <Image src="/whasap.png" alt="WhatsApp" className="social-icon" width={728}      // required
-  height={90} />
-    <span>WhatsApp</span>
-  </a>
-</div>
-
-        <h1 style={{ textAlign: "center", marginBottom: 18, color: "#ff0050" }}>{video.title}</h1>
-
-        <div className="container">
-
-          
-
-          {/* Center */}
-          <section className="centerPanel">
-
-            {/* 🔗 Share Bar */}
-            <div className="shareBar">
-              <span className="shareLabel">🔗 Share:</span>
-              <input
-                type="text"
-                readOnly
-                value={currentUrl}
-                className="shareInput"
-                onFocus={(e) => e.target.select()}
-              />
-              <a
-                className="shareIcon"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`}
-              >
-                <Image src="/fb.png" alt="Facebook" width={30}      // required
-  height={30}/>
-              </a>
-              <a
-                className="shareIcon"
-                target="_blank"
-                rel="noopener noreferrer"
-                href={`https://api.whatsapp.com/send?text=${encodeURIComponent(currentUrl)}`}
-              >
-                <Image src="/whasap.png" alt="WhatsApp"  width={30}      // required
-  height={30}/>
-              </a>
+      <Layout>
+        <main className="video-page">
+          <header className="vp-header">
+            <h1 className="vp-title">{video.title}</h1>
+            <div className={`status-pill ${status.toLowerCase()}`}>
+              {status === "UPCOMING" && (
+                <>
+                  <span className="dot" />
+                  UPCOMING {countdown && <span className="count">{countdown}</span>}
+                </>
+              )}
+              {status === "LIVE" && (
+                <>
+                  <span className="dot live" />
+                  LIVE {liveElapsed && <span className="elapsed">{liveElapsed}</span>}
+                </>
+              )}
+              {status === "ENDED" && (
+                <>
+                  <span className="dot ended" />
+                  ENDED
+                </>
+              )}
             </div>
+          </header>
 
-            {/*VIDEO BAR*/}
-            <div className={`videoWrap ${theaterMode ? "theater" : ""}`}>
-  <div className="videoFrame">
-    <iframe
-      src={currentEmbed}
-      title={video.title}
-      allowFullScreen
-      frameBorder="0"
-    />
-    {theaterMode && (
-  <button 
-    className="closeTheaterBtn" 
-    onClick={() => setTheaterMode(false)}
-    aria-label="Exit theater mode"
-  >
-    ✕
-  </button>
-)}
+          <div className="share-bar">
+            <button className="copy-btn" onClick={shareCopy}>
+              {copied ? "Copied!" : "Copy Link"}
+            </button>
+            <input
+              className="share-input"
+              aria-label="Share URL"
+              readOnly
+              value={pageUrl}
+              onFocus={e => e.target.select()}
+            />
+          </div>
 
-  </div>
-</div>
+          <div className={`player-shell ${theater ? "theater" : ""}`}>
+            <div className="aspect">
+              {currentEmbed ? (
+                <iframe
+                  key={currentEmbed}
+                  src={currentEmbed}
+                  title={video.title}
+                  allowFullScreen
+                  frameBorder="0"
+                  onLoad={handleIframeLoad}
+                  onError={handleIframeError}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+                />
+              ) : (
+                <div className="empty">No Source</div>
+              )}
 
+              {iframeError && (
+                <div className="iframe-fallback">
+                  <p>Stream failed to load. Try another link or reload.</p>
+                  <div className="fallback-buttons">
+                    <button
+                      onClick={() => {
+                        setIframeError(false);
+                        setIframeLoaded(false);
+                        setSelectedIndex((i) => (i + 1) % sources.length);
+                      }}
+                    >
+                      Next Link
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIframeError(false);
+                        setIframeLoaded(false);
+                        setSelectedIndex(selectedIndex); // reload same
+                      }}
+                    >
+                      Reload
+                    </button>
+                  </div>
+                  <small>
+                    YouTube 153? Check embedding allowed, video public, no geo/age
+                    restriction.
+                  </small>
+                </div>
+              )}
 
-            {/* controls row: source buttons + theater toggle */}
-            <div className="controlsRow">
-              <div className="sourceButtons" role="tablist" aria-label="Video Sources">
-                {video.sources.map((_, idx) => (
-                  <button
-                    key={idx}
-                    className={`sourceBtn ${selectedSourceIndex === idx ? "active" : ""}`}
-                    onClick={() => setSelectedSourceIndex(idx)}
-                    aria-pressed={selectedSourceIndex === idx}
-                  >
-                    Link {idx + 1}
-                  </button>
-                ))}
-              </div>
-
-              <div className="rightControls">
+              {theater && (
                 <button
-                  className={`theaterBtn ${theaterMode ? "active" : ""}`}
-                  onClick={() => setTheaterMode((s) => !s)}
-                  aria-pressed={theaterMode}
+                  className="close-theater"
+                  aria-label="Exit theater mode"
+                  onClick={() => setTheater(false)}
                 >
-                  {theaterMode ? "Exit Theater" : "Theater Mode"}
+                  ✕
                 </button>
-              </div>
+              )}
             </div>
+          </div>
 
+          <div className="controls-row">
+            <div className="sources" role="tablist" aria-label="Stream sources">
+              {sources.map((_, i) => (
+                <button
+                  key={i}
+                  role="tab"
+                  aria-selected={selectedIndex === i}
+                  onClick={() => {
+                    setSelectedIndex(i);
+                    setIframeError(false);
+                    setIframeLoaded(false);
+                  }}
+                  className={`src-btn ${selectedIndex === i ? "active" : ""}`}
+                >
+                  Link {i + 1}
+                </button>
+              ))}
+            </div>
+            <button
+              className={`theater-btn ${theater ? "on" : ""}`}
+              onClick={() => setTheater(t => !t)}
+            >
+              {theater ? "Exit Theater" : "Theater Mode"}
+            </button>
+          </div>
+
+          <section className="info">
+            <p className="note">
+              {status === "LIVE"
+                ? "Make sure to try another source if the current one does not work."
+                : status === "UPCOMING"
+                ? "Match not live—yet."
+                : "Match ended—-."}
+            </p>
+           .
            
+            {/* About Section */}
+        <p className="about-title"><strong>ABOUT</strong></p>
+        <p>
+          Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live
+          scores, and match highlights — powered by <b style={{ color: "red" }}>Kaishenborg</b>.
+        </p>
           </section>
+        </main>
 
+        <style jsx>{`
+          .video-page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 90px 20px 90px;
+          }
+          .vp-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+
+          }
+          .vp-title {
+            margin: 0;
+            font-size: clamp(1.5rem, 3.3vw, 2.3rem);
+            font-weight: 600;
+            background: linear-gradient(90deg,#ffffff,#d5dde6);
+            -webkit-background-clip: text;
+text-align: center;          }
+          .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            color: #fff;
+          }
+          .status-pill.live {
+            background: linear-gradient(90deg,#ff3d3d,#ff7a1e);
+            border: none;
+          }
+          .status-pill.upcoming {
+            background: linear-gradient(135deg,#2653f5,#6d3df8);
+            border: none;
+          }
+          .status-pill.ended {
+            background: linear-gradient(135deg,#4a4f55,#2d3136);
+            border: none;
+          }
+          .status-pill .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            position: relative;
+          }
+          .status-pill.live .dot::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: rgba(30, 22, 22, 0.6);
+            animation: pulse 1.1s infinite ease-out;
+          }
+          @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            70% { transform: scale(2); opacity: 0; }
+            100% { transform: scale(2); opacity: 0; }
+          }
+
+          .share-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            background: rgba(62, 52, 52, 0.29);
+            border: 2px solid rgba(11, 8, 8, 0.16);
+            padding: 10px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+          }
+          .copy-btn {
+            background: rgba(149, 144, 2, 0.77);
+            border: 2px solid rgba(0, 0, 0, 0.61);
+            font-size: 0.68rem;
+            color:white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+          }
+          .share-input {
+            flex: 1;
+            min-width: 200px;
+            border: 2px solid rgba(8, 4, 4, 0.86);
+            background: rgba(0,0,0,0.3);
+            color:white;
           
-        </div>
+            font-size: 0.7rem;
+            padding: 6px 8px;
+            border-radius: 8px;
+          }
 
+          .player-shell {
+            position: relative;
+            margin-bottom: 14px;
+            transition: all 0.4s;
+          }
+          .player-shell.theater {
+            position: fixed;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: min(90vw, 1180px);
+            height: calc(100vh - 120px);
+            z-index: 1200;
+          }
+          .player-shell.theater .aspect {
+            padding-bottom: 0;
+            height: 100%;
+          }
+          body.theater-active::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 1100;
+          }
 
+          .aspect {
+            position: relative;
+            padding-bottom: 56.25%;
+            background: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 16px 42px -14px rgba(0,0,0,0.7);
+          }
+          .aspect iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+          }
+          .empty {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #ccc;
+          }
+          .iframe-fallback {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg,#111920,#15212a);
+            color: #f3f6f9;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            font-size: 0.7rem;
+            z-index: 10;
+          }
+          .fallback-buttons {
+            display: flex;
+            gap: 10px;
+          }
+          .fallback-buttons button {
+            background: linear-gradient(135deg,#2653f5,#6d3df8);
+            color: #cd3838ff;
+            border: none;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+          }
 
+          .close-theater {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.55);
+            color: #fff;
+            border: none;
+            font-size: 20px;
+            line-height: 1;
+            padding: 6px 10px;
+            border-radius: 50%;
+            cursor: pointer;
+          }
 
-        {/* optional small description/time area under everything */}
-        <div className="metaRow" style={{textAlign: "center"}}>
-          <div className="metaLeft">⏱ Live / {new Date().toLocaleString()}</div>
-          <p>WAIT TILL GAME STARTS, LINKS WILL BE UPDATED<br/> Check another link if current link is not working..</p>
-          <div className="metaRight">❤️ Thank you for your visit /\ share if you like ^_^</div>
-        </div>
-      </main>
+          .controls-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+          }
+          .sources {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+          }
+          .src-btn {
+            background: rgba(11, 9, 9, 0.35);
+            border: 2px solid rgba(11, 7, 7, 0.94);
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 8px 12px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background .35s,border-color .4s;
+          }
+          .src-btn.active {
+            background: linear-gradient(135deg,#2653f5,#6d3df8);
+            border-color: black;
+          }
+          .src-btn:not(.active):hover {
+            background: rgba(250, 20, 20, 0.88);
+            border-color: rgba(18, 13, 13, 0.85);
+          }
+          .theater-btn {
+            background: rgba(11, 123, 3, 0.81);
+            border: 2px solid rgba(20, 16, 16, 0.82);
+            color: #eff1f4ff;
+            font-size: 0.65rem;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: background .35s;
+          }
+          .theater-btn.on {
+            background: linear-gradient(90deg,#ff3d3d,#ff7a1e);
+            border-color: transparent;
+          }
 
-      <p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >ABOUT</strong></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Keywords</strong><br/></p>
-<p> 
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and football
-</p>
+          .info {
+            margin-top: 14px;
+            text-align: center;
+          }
+          .note {
+            font-size: 0.72rem;
+            opacity: 0.85;
+            margin: 0 0 6px;
+          }
+          .disc {
+            font-size: 0.63rem;
+            opacity: 0.55;
+            margin: 0;
+          }
 
-      <style jsx>{`
-        .container {
-          display: flex;
-          gap: 20px;
-          align-items: flex-start;
-          padding: 0 18px;
-          max-width: 800px;
-          margin: 0 auto;
-        }
-
-        .centerPanel {
-          flex: 1;
-          min-width: 300px;
-          
-        }
-
-.videoWrap.theater {
-  position: fixed;
-  top: 80px; /* below your header */
-  left: 50%;
-  transform: translateX(-50%);
-  width: 70vw;
-  height: 60vh;
-  background: #000;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: 0 0 18px rgba(0,0,0,0.7);
-  transition: all 0.35s ease;
-}
-
-.videoWrap.theater .videoFrame {
-  padding-bottom: 0;
-  height: 100%;
-}
-
-.videoWrap.theater iframe {
-  width: 100%;
-  height: 100%;
-}
-body.theater-active::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 80vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.7);
-  z-index: 9998;
-  transition: background 0.3s ease;
-}
-  .videoWrap,
-.videoWrap.theater {
-  transition: all 0.5s ease;
-}
-
-
-
-
-.closeTheaterBtn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  border: none;
-  font-size: 24px;
-  line-height: 1;
-  padding: 6px 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 10000;
-  backdrop-filter: blur(5px);
-  transition: background 0.2s;
-}
-
-.closeTheaterBtn:hover {
-  background: rgba(0,0,0,0.8);
-}
-
-@media (max-width: 768px) {
-  .closeTheaterBtn {
-    font-size: 20px;
-    top: 8px;
-    right: 8px;
-    padding: 4px 8px;
-  }
-}
-
-
-
-        .videoWrap {
-          background: linear-gradient(180deg, #0f172a, #111827);
-          padding: 6px;
-          border-radius: 10px;
-          box-shadow: 0 12px 30px rgba(147, 32, 32, 0.35);
-          
-        }
-
-        .videoFrame {
-          position: relative;
-          padding-bottom: 56.25%;
-          border-radius: 10px;
-          overflow: hidden;
-        }
-        .videoFrame iframe {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          border: 0;
-        }
-
-        .controlsRow {
-          margin-top: 12px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .sourceButtons { display: flex; gap: 8px; flex-wrap: wrap; }
-        .sourceBtn {
-          background: #ffffff84;
-          border: 1px solid #240000ff;
-          padding: 8px 12px;
-          border-radius: 8px;
-          cursor: pointer;
-          color: #000000ff;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-          font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-        }
-
-
-        .sourceBtn.active { background: linear-gradient(90deg, #f692b0ff, #6ae088ff, #9078b2ff); color: #041e55ff; border: none; }
-
-        .theaterBtn {
-          background: #041e55ff;
-          color: white;
-          padding: 8px 12px;
-          border-radius: 8px;
-          border: none;
-          cursor: pointer;
-        }
-        .theaterBtn.active { background: #000000ff;
-        }
-        .shareBar {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 10px;
-          background: #f9fafb;
-          padding: 8px 12px;
-          border-radius: 8px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-        .shareInput {
-          flex: 1;
-          padding: 6px 8px;
-          border-radius: 6px;
-          border: 1px solid #ddd;
-          font-size: 13px;
-        }
-        .shareIcon img {
-          width: 28px;
-          height: 28px;
-        }
-         .metaRow {
-  max-width: 1200px;
-  margin: 18px auto 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-family: Arial, Helvetica, sans-serif;
-  padding: 10px 20px;
-  flex-wrap: wrap; /* optional for responsiveness */
-}
-
-.metaLeft,
-.metaRight {
-  flex: 1;
-  text-align: left;
-}
-
-.metaRight {
-  text-align: right;
-}
-
-.metaRow p {
-  flex: 2;
-  text-align: center;
-  margin: 0;
-}
-          
-        /* hide left panel in theater mode already handled by 'hidden' class, but ensure animation is clean on mobile */
-      `}</style>
-    </Layout>
-  </>
+          @media (max-width: 760px) {
+            .video-page { padding: 86px 16px 80px; }
+            .player-shell.theater {
+              top: 60px;
+              height: calc(100vh - 90px);
+            }
+            .share-bar { gap: 8px; }
+            .share-input { flex: 1 1 100%; }
+            .vp-header { flex-direction: column; align-items: flex-start; }
+          }
+        `}</style>
+      </Layout>
+    </>
   );
 }

@@ -1,251 +1,272 @@
-// src/components/Header.js
 import { useRef, useEffect, useState } from 'react';
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dark, setDark] = useState(true);
+  const [dark, setDark] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const menuRef = useRef(null); // Moved here
+  const menuRef = useRef(null);
 
   const toggleTheme = () => {
-    setDark(!dark);
-    document.body.style.background = dark ? "#fff" : "#111";
-    document.body.style.color = dark ? "#111" : "#fff";
+    setDark(prev => !prev);
+    const isDark = !dark;
+    document.body.style.background = isDark
+      ? "linear-gradient(115deg,#0d1218,#141b24 55%,#0f161d)"
+      : "#f5f7fb";
+    document.body.style.color = isDark ? "#e6ecf2" : "#1a222b";
   };
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
+    function handleClickOutside(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
         setMenuOpen(false);
       }
     }
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="header-container">
-        {/* LEFT - Logo */}
         <div className="header-left">
           <Link href="/" legacyBehavior>
-            <a>
-              <Image src="/kbergwhite2.png" alt="Logo" className="logo" width={180} height={30}/>
+            <a className="logo-link" aria-label="KaiSportsLive Home">
+              <Image
+                src="/kbergwhite2.png"
+                alt="Logo"
+                className="logo"
+                width={170}
+                height={32}
+                priority
+              />
             </a>
           </Link>
         </div>
 
-        {/* CENTER - Desktop Nav */}
         <nav className="header-center">
           <button className="nav-link">Sign In</button>
           <button className="nav-link">About Us</button>
           <button className="nav-link">Contact</button>
         </nav>
 
-        {/* RIGHT - Theme, Donate, Hamburger */}
         <div className="header-right">
-          <button className="theme-toggle" onClick={toggleTheme}>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             {dark ? "🌙" : "☀️"}
           </button>
           <button className="donate-btn">Donate</button>
-           <button
-        className="hamburger"
-        onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Menu"
-      >
-        ☰
-      </button>
-
-      {menuOpen && (
-        <div ref={menuRef} className="menu-panel">
-          {/* Your menu content */}
-        </div>
-      )}
-
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Menu"
+          >
+            ☰
+          </button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
       {menuOpen && (
-        <div className="mobile-menu">
-          <button className="close-menu" onClick={() => setMenuOpen(false)}>
+        <div className="mobile-menu" ref={menuRef}>
+          <button className="close-menu" onClick={() => setMenuOpen(false)} aria-label="Close menu">
             ×
           </button>
           <button className="mobile-link">Sign In</button>
           <button className="mobile-link">About Us</button>
-          <button className="mobile-link">Contact</button>
+            <button className="mobile-link">Contact</button>
         </div>
       )}
 
       <style jsx>{`
         .site-header {
-          background: rgba(86, 18, 203, 0);
-          color: white;
           position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 999;
-          padding: 10px 20px;
-          transition: background 0.6s ease-in-out;
-          backdrop-filter: blur(20px);
+          inset: 0 0 auto 0;
+          z-index: 1000;
+          padding: 0px clamp(14px, 4vw, 38px);
+          display: flex;
+          align-items: center;
+          backdrop-filter: blur(16px) saturate(150%);
+          background: rgba(20, 24, 32, 0);
+          border-bottom: 1px solid rgba(255,255,255,0.06);
+          transition: background .5s, box-shadow .4s, border-color .5s;
         }
         .site-header.scrolled {
-          background: linear-gradient(
-            90deg,
-            #33010aff 0%,
-            #656939ff 50%,
-            #002f11ff 100%
-          );
-          box-shadow: 0 2px 16px rgba(16, 15, 15, 0.79);
+          background: linear-gradient(90deg,#22021a 0%,#414728 52%,#003616 100%);
+          box-shadow: 0 4px 18px -6px rgba(0,0,0,.55);
+          border-color: rgba(255,255,255,0.1);
         }
-
         .header-container {
+          width: 100%;
+          max-width: 1280px;
+          margin: 7 auto;
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          max-width: 1200px;
-          margin: auto;
+          justify-content: space-between;
+          gap: 24px;
         }
+          .logo-link {
+  filter: drop-shadow(0 0 7px rgba(0, 0, 0, 0.46));
+}
 
-        .logo {
-          height: 42px;
-          width: auto;
-          cursor: pointer;
-        }
+        .logo-link { display: inline-flex; align-items: center; height: auto; width: auto; max-height: 40px; }
+.logo-link:hover{
+    transform: scale(1.2);
+transition: 0.2s ease-in;}
 
         .header-center {
           display: flex;
-          gap: 20px;
+          gap: 26px;
           align-items: center;
-          font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-          font-weight: bold;
+          font-family: "Cambria", Georgia, serif;
         }
-
         .nav-link {
           background: none;
           border: none;
-          color: rgb(255, 48, 48);
+          font-size: .95rem;
+          font-weight: 700;
+          letter-spacing: .6px;
+          color: #ff5757;
           cursor: pointer;
-          font-size: 1rem;
-          font-weight: bolder;
-          transition: color 0.3s;
+          position: relative;
+          padding: 4px 2px;
+          transition: color .35s;
+        }
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -3px;
+          height: 2px;
+          width: 0;
+          background: linear-gradient(90deg,#ff5757,#27d507);
+          transition: width .4s;
         }
         .nav-link:hover {
-          color: #28cf06;
+          color: #2dd10b;
         }
+        .nav-link:hover::after { width: 100%; }
 
         .header-right {
           display: flex;
           align-items: center;
-          gap: 15px;
-          margin-right: 20px;
+          gap: 14px;
         }
-
         .theme-toggle {
           background: none;
-          border: none;
-          font-size: 1.4rem;
+          border: 1px solid rgba(120, 88, 88, 0.74);
+          width: 38px;
+          height: 38px;
+          border-radius: 12px;
+          font-size: 1.1rem;
           cursor: pointer;
-          color: white;
-          transition: transform 0.2s;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background .3s, transform .3s, border-color .4s;
         }
         .theme-toggle:hover {
-          transform: rotate(60deg);
+          background: rgba(255,255,255,0.12);
+          transform: rotate(25deg);
+          border-color: rgba(255,255,255,0.4);
         }
-
         .donate-btn {
-          background: linear-gradient(135deg, #429200a6, #ff7a00);
-          color: white;
+          background: linear-gradient(135deg,#329a0a,#ff7a00);
+          color: #fff;
           border: none;
-          padding: 8px 16px;
-          border-radius: 8px;
-          font-weight: bold;
+          padding: 9px 18px;
+          font-size: .8rem;
+          border-radius: 11px;
+          font-weight: 700;
+          letter-spacing: .5px;
           cursor: pointer;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          transition: transform 0.2s, box-shadow 0.2s;
+          box-shadow: 0 4px 14px -4px rgba(255,120,0,0.55);
+          transition: transform .28s, box-shadow .35s;
         }
         .donate-btn:hover {
-          transform: scale(1.05);
-          box-shadow: 0 4px 10px rgba(204, 255, 0, 0.5);
+          transform: translateY(-3px);
+          box-shadow: 0 8px 22px -6px rgba(255,120,0,0.65);
         }
-
         .hamburger {
           display: none;
           background: none;
           border: none;
           font-size: 1.8rem;
           cursor: pointer;
-          color: rgb(202, 0, 0);
+          color: #ff4545;
+          padding: 2px 8px;
+          line-height: 1;
+          transition: color .35s;
         }
+        .hamburger:hover { color: #2be60f; }
 
-        /* MOBILE MENU */
         .mobile-menu {
-          width: 40vw;
+          position: fixed;
+          top: 0;
+          right: 0;
+          width: min(58vw, 320px);
           height: 100vh;
-          background: rgba(13, 5, 17, 0.95);
+          background: linear-gradient(165deg,#121820,#1a212b 60%,#10161d);
+          box-shadow: -4px 0 18px -6px rgba(0,0,0,.55);
           display: flex;
-          backdrop-filter: blur(10px);
-          animation: slideIn 0.4s ease forwards;
+          flex-direction: column;
+          padding: 70px 28px 18px;
+          gap: 18px;
+          animation: slideIn .45s cubic-bezier(.16,.8,.24,1);
+          backdrop-filter: blur(14px) saturate(160%);
+          border-left: 1px solid rgba(255,255,255,0.07);
         }
         @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-          }
-          to {
-            transform: translateX(0);
-          }
+          from { transform: translateX(40px); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
         }
-
         .close-menu {
-          align-self: flex-end;
+          position: absolute;
+          top: 14px;
+          right: 80px;
           background: none;
           border: none;
-          color: white;
-          font-size: 2rem;
-          margin-right: 30px;
+          font-size: 2.2rem;
+          color: #fff;
           cursor: pointer;
+          line-height: .8;
         }
-
         .mobile-link {
           background: none;
-          border: none;
-          color: rgb(246, 68, 68);
-          font-size: 1.2rem;
-          margin: 10px 0;
-          cursor: pointer;
+          border: 1px solid rgba(255,255,255,0.14);
+          color: #ff5858;
+          font-size: .95rem;
+          padding: 12px 14px;
+          border-radius: 10px;
           text-align: left;
+          cursor: pointer;
+          font-weight: 600;
+          letter-spacing: .4px;
+          transition: background .35s, color .35s, border-color .4s;
         }
         .mobile-link:hover {
-          color: #ff4d88;
+          background: rgba(255,255,255,0.09);
+          color: #3ff218;
+          border-color: rgba(255,255,255,0.3);
         }
 
         @media (max-width: 900px) {
-          .header-center {
-            display: none;
-          }
-          .hamburger {
-            display: block;
-          }
+          .header-center { display: none; }
+          .hamburger { display: inline-flex; }
+          .donate-btn { padding: 8px 14px; font-size: .72rem; }
+          .theme-toggle { width: 34px; height: 34px; font-size: 1rem; }
+        }
+        @media (max-width: 520px) {
+          .donate-btn { display: none; }
+          .site-header { padding: 8px 16px; }
         }
       `}</style>
     </header>
   );
-  }
-
+}

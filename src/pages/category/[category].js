@@ -1,604 +1,369 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import Layout from "@/components/Layout";
 import Head from "next/head";
+import { useEffect, useState, useMemo, useCallback } from "react";
+import Layout from "@/components/Layout";
+import MatchRow from "@/components/MatchRow";
+import BannerAd from "@/components/BannerAd";
+import Footer from "@/components/Footer";
+import videoData from "@/pages/video/[videoId]"
 
-
-// 📝 Enhanced dummy data with more details
-const categoryVideos = {
+const categoryMatches = {
   cricket: [
     {
-      id: "video1",
-      title: "Nepal vs WIndies, 3rd T20I",
-      subtitle: "Unity Cup 2025",
-      thumb: "/nepwin2.svg",
+      id: "video",
+      title: "Nepal vs West Indies",
+      subtitle: "3rd T20I",
       time: "2025-09-30T20:15:00+05:45",
-      isLive: true,
+      durationMinutes: 210,
     },
-    
-    
   ],
   football: [
     {
-  id: "video2",
-  title: "Kairat Almaty vs Real Madrid",
-  subtitle: "UCL Group Stage",
-  thumb: "/madrid.png",
-  time: "2025-09-30T22:30:00+05:45",  // ✅ Nepal time
-  isLive: true,
-},
-
+      id: "video1",
+      title: "Al Zawraa vs Al Nassr FC",
+      subtitle: "ACL",
+      time: "2025-10-02T00:00:00+05:45",
+      durationMinutes: 120,
+    },
     {
+      id: "video2",
+      title: "Arsenal vs Olympiacos",
+      subtitle: "UCL Group Stage",
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
+    },
+     {
       id: "video3",
-      title: "Atletico Madrid vs Frankfurt",
+      title: "Barcelona vs PSG",
       subtitle: "UCL Group Stage",
-      thumb: "/atleti.png",
-      time: "2025-10-01T00:45:00+05:45",
-      isLive: false,
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
     },
-{
+     {
       id: "video4",
-      title: "Chelsea vs Benfica",
+      title: "Man City vs Monaco",
       subtitle: "UCL Group Stage",
-      thumb: "/chelsea.png",
-      time: "2025-10-01T00:45:00+05:45",
-      isLive: false,
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
     },
-{
+     {
       id: "video5",
-      title: "Liverpool vs Galatasaray",
+      title: "Juventus vs Villareal",
       subtitle: "UCL Group Stage",
-      thumb: "/livpool.png",
-      time: "2025-10-01T00:45:00+05:45",
-      isLive: false,
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
     },
-{
+     {
       id: "video6",
-      title: "Inter Milan vs Slavia Prague",
+      title: "Napoli vs Sporting CP",
       subtitle: "UCL Group Stage",
-      thumb: "/inter.png",
-      time: "2025-10-01T00:45:00+05:45",
-      isLive: false,
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
     },
-
-{
-      id: "video6",
-      title: "Bayern Munchen vs Pafos FC",
+     {
+      id: "video7",
+      title: "Dortmund vs Athletic Club",
       subtitle: "UCL Group Stage",
-      thumb: "/bayern.png",
-      time: "2025-10-01T00:45:00+05:45",
-      isLive: false,
+      time: "2025-10-2T00:45:00+05:45",
+      durationMinutes: 120,
     },
-
   ],
 };
 
-export default function CategoryPage() {
+const STATUS = {
+  UPCOMING: "UPCOMING",
+  LIVE: "LIVE",
+  ENDED: "ENDED",
+};
 
+function computeStatus(match, now) {
+  const start = new Date(match.time);
+  const end = new Date(start.getTime() + (match.durationMinutes || 150) * 60 * 1000);
+  if (now < start) return { status: STATUS.UPCOMING, start, end };
+  if (now >= start && now < end) return { status: STATUS.LIVE, start, end };
+  return { status: STATUS.ENDED, start, end };
+}
+
+function formatStartsIn(start, now) {
+  const diffMs = start - now;
+  if (diffMs <= 0) return "Starts now";
+  const diffSec = Math.floor(diffMs / 1000);
+  const diffMin = Math.floor(diffSec / 60);
+  const diffH = Math.floor(diffMin / 60);
+  const diffD = Math.floor(diffH / 24);
+  if (diffD >= 1) return diffD === 1 ? "Starts in 1 day" : `Starts in ${diffD} days`;
+  if (diffH >= 1) return diffH === 1 ? "Starts in 1 hour" : `Starts in ${diffH} hours`;
+  if (diffMin >= 1) return diffMin === 1 ? "Starts in 1 min" : `Starts in ${diffMin} mins`;
+  return "Starts in seconds";
+}
+
+function countdownUnder24Hours(start, now) {
+  const diff = start - now;
+  if (diff <= 0 || diff > 24 * 60 * 60 * 1000) return null;
+  const totalSec = Math.floor(diff / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  const hh = h.toString().padStart(2, "0");
+  const mm = m.toString().padStart(2, "0");
+  const ss = s.toString().padStart(2, "0");
+  return h > 0 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
+}
+
+export default function CategoryPage() {
   const router = useRouter();
   const { category } = router.query;
 
-    const [clickCounts, setClickCounts] = useState({});
+  const [now, setNow] = useState(() => new Date());
+  const [clickCounts, setClickCounts] = useState({});
+  const [, setIncrementing] = useState({});
 
- // Load click counts from localStorage
   useEffect(() => {
-        if (!category) return;
-    const storedCounts = localStorage.getItem(`clickCounts_${category}`);
-    if (storedCounts) setClickCounts(JSON.parse(storedCounts));
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/clicks")
+      .then(r => r.json())
+      .then(d => d.counts && setClickCounts(d.counts))
+      .catch(() => {});
+  }, []);
+
+  const matches = useMemo(() => {
+    if (!category) return [];
+    return categoryMatches[category.toLowerCase()] || [];
   }, [category]);
 
- if (!category) return null;
-   const categoryTitle = category.charAt(0).toUpperCase() + category.slice(1);
+  const categoryTitle = useMemo(() => {
+    if (!category) return "";
+    return category.charAt(0).toUpperCase() + category.slice(1);
+  }, [category]);
 
+  const handleClick = useCallback((id) => {
+    setClickCounts(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    setIncrementing(p => ({ ...p, [id]: true }));
+    fetch("/api/clicks", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ videoId: id }),
+    })
+      .then(r => r.json())
+      .then(data => {
+        if (data.videoId) {
+          setClickCounts(prev => ({ ...prev, [data.videoId]: data.count }));
+        }
+      })
+      .finally(() => {
+        setIncrementing(p => {
+          const copy = { ...p };
+            delete copy[id];
+          return copy;
+        });
+      });
+  }, []);
 
- const videos = categoryVideos[category.toLowerCase()];
+  if (!category) return null;
 
-  // Handler to track video clicks
-  const handleVideoClick = (videoId) => {
-    setClickCounts(prev => {
-      const newCounts = { ...prev, [videoId]: (prev[videoId] || 0) + 1 };
-      localStorage.setItem(`clickCounts_${category}`, JSON.stringify(newCounts));
-      return newCounts;
-    });
-  };
-
-
-
-  if (!videos) {
+  if (!matches.length) {
     return (
-    
       <Layout>
-        <div className="not-found">
-          <div className="error-icon">⚠️</div>
-          <h2>Category not found</h2>
-          <p>The sports category you are looking for does not exist.</p>
-          <Link href="/">
-            <button className="back-btn">Go Back Home</button>
-          </Link>
+        <Head>
+          <title>{categoryTitle} | Streams</title>
+        </Head>
+        <div style={{ padding: "60px 24px", textAlign: "center" }}>
+          <h2 style={{ marginBottom: 12 }}>No matches found in {categoryTitle}</h2>
+          <p style={{ opacity: 0.7 }}>Check back later. New fixtures will appear automatically.</p>
         </div>
-        <style jsx>{`
-          .not-found {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 70vh;
-            text-align: center;
-            padding: 20px;
-          }
-          .error-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-          }
-          .not-found h2 {
-            color: #333;
-            margin-bottom: 10px;
-          }
-          .not-found p {
-            color: #666;
-            margin-bottom: 30px;
-          }
-          .back-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-          }
-          .back-btn:hover {
-            transform: translateY(-2px);
-          }
-        `}</style>
       </Layout>
     );
   }
 
-  const formatLocalTime = (utcString) => {
-    try {
-      const date = new Date(utcString);
-      const now = new Date();
-      const diffInHours = (date - now) / (1000 * 60 * 60);
-      
-      // If within 24 hours, show relative time
-      if (diffInHours > 0 && diffInHours < 24) {
-        if (diffInHours < 1) {
-          return `Starts in ${Math.floor(diffInHours * 60)} minutes`;
-        }
-        return `Starts in ${Math.floor(diffInHours)} hours`;
-      }
-      
-      return date.toLocaleString([], {
-        dateStyle: "medium",
-        timeStyle: "short",
-      });
-    } catch (e) {
-      return "TBA";
-    }
-  };
+  const sorted = [...matches].sort((a, b) => new Date(a.time) - new Date(b.time));
 
-  const getCategoryEmoji = (cat) => {
-    const emojis = {
-      cricket: "🏏",
-      football: "⚽",
-      basketball: "🏀",
-      tennis: "🎾",
-    };
-    return emojis[cat.toLowerCase()] || "🏆";
-  };
+  function getEmoji(cat) {
+    const map = { cricket: "🏏", football: "⚽" };
+    return map[cat?.toLowerCase()] || "🏆";
+  }
 
   return (
-<>
- <Head>
-    <title>{`${categoryTitle} Live | KaiSportsLive`}</title>
-    <meta
-      name="description"
-      content={`Watch ${categoryTitle} live streams in HD. KaiSportsLive brings you fast & free sports streaming, previews & highlights.`}
-    />
-    <meta
-      name="keywords"
-      content={`${categoryTitle} live, ${categoryTitle} streaming, ${categoryTitle} matches HD, KaiSportsLive, watch sports online`}
-    />
-    <meta property="og:title" content={`${categoryTitle} Live | KaiSportsLive`} />
-    <meta
-      property="og:description"
-      content={`Watch ${categoryTitle} matches live in HD. Join KaiSportsLive for free sports streaming & updates.`}
-    />
-    <meta
-      property="og:url"
-      content={`https://kaisportslive.vercel.app/category/${category}`}
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://kaisportslive.vercel.app/sitepreview.png" />
-  </Head>
     <Layout>
-      <main className="category-main">
-                {/* Social Join Buttons Section */}
-<div className="social-join-container">
-  <a
-    href="https://t.me/kai_se7en"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn telegram"
-    aria-label="Join us on Telegram"
-  >
-    <Image src="/telegram.png" alt="Telegram" className="social-icon" width={30} height={30}/>
-    <span>Telegram</span>
-  </a>
+      <Head>
+        <title>{categoryTitle} Streams | KaiSportsLive</title>
+        <meta name="description" content={`Watch and track ${categoryTitle} streams, live status, countdown & results.`} />
+      </Head>
 
-  <a
-    href="https://discord.gg/YOUR_INVITE"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn discord"
-    aria-label="Join us on Discord"
-  >
-    <Image src="/discord.png" alt="Discord" className="social-icon" width={30} height={30} />
-    <span>Discord</span>
-  </a>
-
-  <a
-    href="https://chat.whatsapp.com/YOUR_GROUP_LINK"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="social-btn whatsapp"
-    aria-label="Join us on WhatsApp"
-  >
-    <Image src="/whasap.png" alt="WhatsApp" className="social-icon" width={30} height={30}/>
-    <span>WhatsApp</span>
-  </a>
-</div>
-        
-        <div className="category-banner top">
-  <Image
-    src="/banner.png"
-    alt="Top Banner"
-    width={728} height={90}
-    style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto", marginBottom:120 }}
-    onError={(e)=>{e.target.src="/api/placeholder/280/160";}}
-  />
-</div>
-
-{/* Category Header */}
-        <div className="category-header">
-          <h1 className="category-title" >
-            <span className="emoji">{getCategoryEmoji(category)}</span>
-            {category.charAt(0).toUpperCase() + category.slice(1)} Streams
+      <main className="category-shell">
+        <section className="hero">
+          <div className="icon-wrap">
+            <span className="hero-icon">{getEmoji(category)}</span>
+          </div>
+          <h1 className="page-title">
+            {categoryTitle} <span className="dim">Streams</span>
           </h1>
-          <p className="category-subtitle">Watch live matches and highlights</p>
-        </div>
+          <p className="tagline">Fast, lightweight fixture board. Live states & automatic endings.</p>
+        </section>
 
-        
-        {/* ====== Video Grid ====== */}
-        <div className="video-grid">
-          {videos.map((video) => {
-  const matchTime = new Date(video.time);
-  const now = new Date();
-  const isEnded = !video.isLive && now > matchTime;  // ✅ ended condition
+        <BannerAd />
 
-  return (
-    <Link key={video.id} href={`/video/${video.id}`} legacyBehavior>
-      <a className="video-card">
-        {video.isLive && <div className="live-badge">● LIVE</div>}
-        {isEnded && <div className="ended-badge">ENDED</div>}  {/* 👈 new badge */}
+        <section className="list-section">
+          <header className="list-header">
+            <h2>Upcoming & Live</h2>
+          </header>
+          <ul className="match-list">
+            {sorted.map(m => {
+              const { status, start } = computeStatus(m, now);
+              const startLocal = start;
+              const displayTimeRaw = formatStartsIn(startLocal, now);
+              const countdown =
+                status === STATUS.UPCOMING ? countdownUnder24Hours(startLocal, now) : null;
+              const elapsedMinutes =
+                status === STATUS.LIVE
+                  ? Math.max(1, Math.floor((now.getTime() - startLocal.getTime()) / 60000))
+                  : null;
+              return (
+                <MatchRow
+                  key={m.id}
+                  match={m}
+                  status={status}
+                  countdown={countdown}
+                  displayTime={displayTimeRaw}
+                  elapsedMinutes={elapsedMinutes}
+                  clickCount={clickCounts[m.id]}
+                  onClick={handleClick}
+                />
+              );
+            })}
+          </ul>
+        </section>
 
-        <div className="thumb-container">
-          <Image
-            src={video.thumb}
-            alt={video.title}
-            width={280}
-            height={160}
-            className="thumb-img"
-            onError={(e) => {
-              e.target.src = "/api/placeholder/280/160";
-            }}
-          />
-          <div className="video-overlay">
-            <span className="play-icon">▶</span>
-          </div>
-        </div>
+        <BannerAd />
 
-        <div className="video-info">
-          <h3 className="video-title">{video.title}</h3>
-          {video.subtitle && <p className="video-subtitle">{video.subtitle}</p>}
-          <div className="video-meta">
-            <span className="video-time">{formatLocalTime(video.time)}</span>
-            {video.viewers && <span className="video-viewers">👁 {video.viewers}</span>}
-          </div>
-        </div>
-      </a>
-    </Link>
-  );
-})}
-
-        </div>
-
-{/* ====== BOTTOM BANNER IMAGE ====== */}
-<div className="category-banner bottom">
-  <Image
-    src="/banner.png"
-    alt="Bottom Banner"
-    width={728} height={90}
-    style={{ width: "100%", maxWidth: "728px", display: "block", margin: "20px auto" }}
-  />
-</div>
- 
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >ABOUT</strong><br/></p><p>Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — powered by <a href="https://www.facebook.com/profile.php?id=61577032744088">Kaishenborg</a>. Watch your favorite teams in action now!</p>
-<p style={{textAlign:"center", fontFamily:'Segoe UI', fontWeight:'bold', }}><strong >Popular Searches</strong><br/></p>
-<p> 
-Live sports streaming, Watch cricket live, Football live stream, crichd Live sports, Free sports streaming, ESPN live matches, Live scores and highlights, HD sports stream, Cricket match today, Football fixtures live, Stream EPL, Stream Premier League, Kaishen Live cricket and footbal
-live sports streaming, watch cricket online, football HD streams, free sports coverage, Premier League live, cricket match today, UCL streaming, La Liga live.
-</p>      
-
-<p style={{textAlign:"center", fontFamily:'Segoe UI'}}><strong>Note:</strong> Kaishports live does not host any media content on it own Site. Our site visitors might use external or third parties services to show content, We Notify all copyright owners, to discover that the links and media shared by visitors and contained within this site are hosted somewhere else on the web or embedded from other various sites like above. <br/> Contact us for any takedowns.</p>
+        <section className="about centered">
+          <h3>About</h3>
+          <p>
+           Stream live cricket, football, and more on <strong>Kai_shports Live</strong>. Enjoy HD sports coverage, live scores, and match highlights — Powered by <b style={{color: "red" }}>Kai7borg</b>. Watch your favorite teams in action now!
+          </p>
+          <p className="note">
+            <strong>Note:</strong> We do not host media, only aggregate or link externally. Contact for takedowns.
+          </p>
+        </section>
       </main>
 
       <style jsx>{`
-
-       .click-count { font-size: 0.75rem; color: #888; margin-left: 5px; }
-        .category-main {
-          padding: 50px 5% 50px;
-          min-height: 80vh;
+        .category-shell {
           position: relative;
-        }
-
-        .category-main::before {
-          content: '';
-          position: absolute;
-          top: 10;
-          left: 10;
-          right: 0;
-          bottom: 0;
-          background: 
-            radial-gradient(circle at 20% 80%, rgba(4, 0, 255, 0.3), transparent 50%),
-            radial-gradient(circle at 80% 20%, hsla(139, 90%, 24%, 0.40), transparent 100%),
-            radial-gradient(circle at 40% 40%, rgba(212, 22, 22, 0.3), transparent 40%);
-          pointer-events: none;
-        }
-
-        .category-header {
-          text-align: center;
-          margin-bottom: 0px;
-          position: relative;
-        }
-
-        .category-title {
-          font-size: 2rem;
-          font-weight: 200;
-       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-       margin: -10; /* Remove default margin */
-  display: flex;
-  flex-direction:column;
-  align-items: center;
-  gap: 0; 
-          text-align: center;
-        }
-
-        .emoji {
-          font-size: 3rem;
-          animation: bounce 1s infinite;
-          margin-bottom: -20; /* Remove extra space below emoji */
-  line-height: 1;   
-        }
-
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-18px); }
-        }
-
-        .category-subtitle {
-          font-size: 1rem;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
-
-        }
-
-      
-.ended-badge {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  background: #444;
-  color: white;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  z-index: 2;
-  opacity: 0.85;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-
-
-
-        .video-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 30px;
-          max-width: 1200px;
+          width: 100%;
+          max-width: 980px;
           margin: 0 auto;
-          position: relative;
-          z-index: 1;
+          padding: 52px 22px 90px;
         }
-
-        .video-card {
-          background: white;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          text-decoration: none;
-          position: relative;
-          display: block;
+       
+      
+        .hero {
+          text-align: center;
+          margin-bottom: 34px;
         }
-
-        .video-card:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-        }
-
-        .live-badge {
-          position: absolute;
-          top: 15px;
-          left: 15px;
-          background: #ff0000;
-          color: white;
-          padding: 5px 12px;
-          border-radius: 20px;
-          font-size: 0.75rem;
-          font-weight: 700;
-          z-index: 2;
-          animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-          0% { opacity: 1; }
-          50% { opacity: 0.7; }
-          100% { opacity: 1; }
-        }
-
-        .thumb-container {
-          width: 100%;
-          display: flex;
+        .icon-wrap {
+          display: inline-flex;
+          width: 76px;
+          height: 76px;
+          border: 2px solid rgba(52, 51, 51, 0.12);
+          border-radius: 30px;
           align-items: center;
           justify-content: center;
-          height: 160px;
-          position: relative;
-          overflow: hidden;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    margin-top: 30px;
+          box-shadow: 0 10px 28px -10px rgba(0,0,0,.65),
+            0 2px 4px rgba(0,0,0,.4);
+          animation: float 4.8s ease-in-out infinite;
         }
-
-        .thumb-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.3s ease;
+        .hero-icon {
+          font-size: 44px;
+          animation: gentle-pulse 3.6s infinite;
         }
-
-        .video-card:hover .thumb-img {
-          transform: scale(1.1);
+        @keyframes float {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
         }
-
-        .video-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0,0,0,0.4);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.3s ease;
+        @keyframes gentle-pulse {
+          0%,100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.06); opacity: .92; }
         }
-
-        .video-card:hover .video-overlay {
-          opacity: 1;
+        .page-title {
+          font-size: clamp(2rem,4.8vw,3rem);
+          font-weight: 600;
+          letter-spacing: -.5px;
+          margin: 0 0 6px;
+          background: linear-gradient(90deg,#f0f3f8,#d5dde6);
+          -webkit-background-clip: text;
+          
         }
-
-        .play-icon {
-          font-size: 3rem;
-          color: white;
-          background: rgba(255,255,255,0.2);
-          width: 70px;
-          height: 70px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          backdrop-filter: blur(10px);
+        .page-title .dim { font-weight: 300; opacity: .82; }
+        .tagline {
+          margin: 0;
+          font-size: .92rem;
+          font-weight: 400;
+          letter-spacing: .5px;
+          opacity: .96;
         }
-
-        .video-info {
-          padding: 20px;
-        }
-
-        .video-title {
-          font-weight: 700;
-          font-size: 1.1rem;
-          margin: 0 0 8px 0;
-                 text-align: center;
-
-          }
-
-        .video-subtitle {
-          font-size: 0.9rem;
-          margin: 0 0 12px 0;
+        .list-section { margin-top: 12px; }
+        .list-header {
+          margin: 0 0 18px;
           text-align: center;
         }
-
-        .video-meta {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          font-size: 0.85rem;
-        }
-
-        .video-time {
-          color: #181818ff;
-        }
-
-        .video-viewers {
-          color: #081f88ff;
+        .list-header h2 {
+          margin: 0;
+          font-size: clamp(1.45rem,2.6vw,1.65rem);
           font-weight: 600;
+          letter-spacing: .8px;
+          background: linear-gradient(90deg,#ffffff,#cdd5de);
+          -webkit-background-clip: text;
+          position: relative;
         }
-
-        @media (max-width: 768px) {
-          .category-title {
-            font-size: 2rem;
-          }
-          
-          .video-grid {
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 20px;
-          }
-          
-          .thumb-container {
-            height: 100px;
-          }
-          
-          .play-icon {
-            font-size: 2rem;
-            width: 50px;
-            height: 50px;
-          }
-
-          .banner-ad {
-            margin: 0 10px 30px;
-            padding: 15px;
-          }
-
-          .ad-content {
-            flex-direction: column;
-            text-align: center;
-            gap: 15px;
-          }
-
-          .ad-text {
-            align-items: center;
-            text-align: center;
-          }
-
-          .ad-icon {
-            font-size: 2rem;
-          }
-
-          .ad-text strong {
-            font-size: 1rem;
-          }
-
-          .ad-text span {
-            font-size: 0.8rem;
-          }
+        .list-header h2::after {
+          content:'';
+          display: block;
+          width: 70px;
+          height: 3px;
+          margin: 10px auto 0;
+          background: linear-gradient(90deg,#4860ff,#ff7a1e);
+          border-radius: 2px;
+          opacity: .85;
+        }
+        .match-list {
+          margin: 0;
+          padding: 0;
+        }
+        .about.centered {
+          margin-top: 70px;
+          text-align: center;
+          max-width: 720px;
+          margin-left: auto;
+          margin-right: auto;
+          line-height: 1.55;
+        }
+        .about.centered h3 {
+          font-size: 1.05rem;
+          font-weight: 600;
+          margin: 0 0 14px;
+          letter-spacing: .6px;
+        }
+        .about.centered p {
+          margin: 0 0 14px;
+          font-size: .85rem;
+        }
+        .about.centered .note {
+          opacity: .7;
+          font-size: .78rem;
+          margin-top: 8px;
+        }
+        @media (max-width: 640px) {
+          .category-shell { padding: 46px 16px 80px; }
+          .icon-wrap { width: 74px; height: 74px; border-radius: 24px; margin-bottom: 16px; }
+          .hero-icon { font-size: 38px; }
+          .about.centered { font-size: .8rem; }
         }
       `}</style>
     </Layout>
-    </>
   );
 }
