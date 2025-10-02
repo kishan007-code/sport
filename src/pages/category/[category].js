@@ -208,7 +208,7 @@ export default function CategoryPage() {
           <h1 className="page-title">
             {categoryTitle} <span className="dim">Streams</span>
           </h1>
-          <p className="tagline">Fast, lightweight fixture board. Live states & automatic endings.</p>
+          <p className="tagline">Watch sports stream in HD</p>
         </section>
 
 <BannerAd
@@ -217,7 +217,8 @@ export default function CategoryPage() {
   alt="Advertise here"
   label="Contact for Ad Space"
   height={90}
-/>        <section className="list-section">
+/>     
+           <section className="list-section">
           <header className="list-header">
             <h2>Upcoming & Live</h2>
           </header>
@@ -329,6 +330,7 @@ Contact us for any takedowns.
           text-align: center;
         }
         .list-header h2 {
+        font-family: times new roman;
           margin: 0;
           font-size: clamp(1.45rem,2.6vw,1.65rem);
           font-weight: 600;
@@ -350,8 +352,10 @@ Contact us for any takedowns.
         .match-list {
           margin: 0;
           padding: 0;
+font-family: Rockwell;
         }
         .about.centered {
+        font-family: Calisto MT;
           margin-top: 70px;
           text-align: center;
           max-width: 720px;

@@ -505,9 +505,9 @@ export default function VideoPage() {
                 ? "Make sure to try another source if the current one does not work."
                 : status === "UPCOMING"
                 ? "Match not live—yet."
-                : "Match ended—."}
+                : "Match ended..."}
             </p>
-           .
+           
            
             {/* About Section */}
         <p className="about-title"><strong>ABOUT</strong></p>
