@@ -45,7 +45,7 @@ export default function Footer() {
         .footer {
           background: linear-gradient(160deg,#040029,#070435 60%,#06002f);
           color: #ffffff;
-          padding: 44px 6% 54px;
+          padding: 14px 3% 5px;
           font-family: 'Segoe UI', system-ui, sans-serif;
           position: relative;
           overflow: hidden;
@@ -120,7 +120,7 @@ export default function Footer() {
           opacity: .75;
         }
         @media (max-width: 680px) {
-          .footer { padding: 42px 26px 60px; }
+          .footer { padding: 12px 0px 16px; }
           .social-icons { gap: 14px; }
           .social-icons a { width: 36px; height: 36px; }
         }
