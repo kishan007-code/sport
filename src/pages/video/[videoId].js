@@ -58,10 +58,10 @@ const rawVideoDefinitions = {
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
+      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
-      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS"
+      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/1",
+      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/6"
     ],
     tags: ["Fenerbahce", "Nice", "Football", "Europaleague", "Ronaldo"]
   },
@@ -70,11 +70,11 @@ const rawVideoDefinitions = {
     startTime: "2025-10-03T22:30:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-    gameSources: [
-      "https://embedsports.top/embed/admin/ppv-arsenal-vs-olympiacos/1",
+    gameSources:[ 
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/admin/ppv-arsenal-vs-olympiacos/1"
+      "https://embedsports.top/embed/admin/ppv-roma-vs-lille/1",
+      "https://embedsports.top/embed/alpha/as-roma-vs-lille/5",
+      "https://embedsports.top/embed/admin/ppv-roma-vs-lille/1"
     ],
     tags: ["Roma", "Football", "Lille", "Europaleague"]
   },
@@ -84,9 +84,9 @@ const rawVideoDefinitions = {
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/admin/ppv-barcelona-vs-paris/1",
+      "https://embedsports.top/embed/admin/ppv-ludogorets-vs-real-betis/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/1",
+      "https://embedsports.top/embed/alpha/ludogorets-razgrad-vs-real-betis/1",
       "ttps://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/4"
     ],
     tags: ["Realbetis", "Europaleague", "Football"]
@@ -97,9 +97,9 @@ const rawVideoDefinitions = {
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1",
-      "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1",
-      "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1",
+      "https://embedsports.top/embed/admin/ppv-dynamo-kyiv-vs-crystal-palace/1",
+      "https://embedsports.top/embed/alpha/dynamo-kyiv-vs-crystal-palace/1",
+      "https://embedsports.top/embed/admin/ppv-dynamo-kyiv-vs-crystal-palace/1",
       "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1"
     ],
     tags: ["CrystalPalace", "Live", "Football", "streamHD", "freestream", "conferenceleague"]

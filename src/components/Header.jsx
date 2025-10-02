@@ -8,6 +8,16 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
 
+  // 👇 Scroll smoothly to the contact section
+  const scrollToContact = () => {
+    const el = document.getElementById("contact");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setMenuOpen(false); // also close mobile menu
+    }
+  };
+
+  // 👇 Theme toggler
   const toggleTheme = () => {
     setDark(prev => !prev);
     const isDark = !dark;
@@ -17,12 +27,14 @@ export default function Header() {
     document.body.style.color = isDark ? "#e6ecf2" : "#1a222b";
   };
 
+  // 👇 Scroll effect for sticky header styling
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // 👇 Close mobile menu on outside click
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -36,6 +48,7 @@ export default function Header() {
   return (
     <header className={`site-header${scrolled ? " scrolled" : ""}`}>
       <div className="header-container">
+        {/* ---------- Left: Logo ---------- */}
         <div className="header-left">
           <Link href="/" legacyBehavior>
             <a className="logo-link" aria-label="KaiSportsLive Home">
@@ -51,12 +64,17 @@ export default function Header() {
           </Link>
         </div>
 
+        {/* ---------- Center: Navigation ---------- */}
         <nav className="header-center">
           <button className="nav-link">Sign In</button>
           <button className="nav-link">About Us</button>
-          <button className="nav-link">Contact</button>
+          <Link href="/contact" legacyBehavior>
+  <a className="nav-link">Contact</a>
+</Link>
+
         </nav>
 
+        {/* ---------- Right: Theme, Donate, Hamburger ---------- */}
         <div className="header-right">
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             {dark ? "🌙" : "☀️"}
@@ -72,17 +90,24 @@ export default function Header() {
         </div>
       </div>
 
+      {/* ---------- Mobile Menu ---------- */}
       {menuOpen && (
         <div className="mobile-menu" ref={menuRef}>
-          <button className="close-menu" onClick={() => setMenuOpen(false)} aria-label="Close menu">
+          <button
+            className="close-menu"
+            onClick={() => setMenuOpen(false)}
+            aria-label="Close menu"
+          >
             ×
           </button>
           <button className="mobile-link">Sign In</button>
           <button className="mobile-link">About Us</button>
-            <button className="mobile-link">Contact</button>
+         <Link href="/contact" legacyBehavior>
+  <a className="mobile-link">Contact</a>
+</Link>
         </div>
       )}
-
+  
       <style jsx>{`
         .site-header {
           position: fixed;
