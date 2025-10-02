@@ -1,36 +1,21 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 
 /**
- * BannerAd Component
+ * BannerAd Component (Video Version)
  * 
- * Props:
- *  - href: string (mailto:... or https://...)
- *  - imgSrc: string (path to banner image, e.g. "/banner.png")
- *  - alt: string (image alt text)
- *  - label: string (fallback text if image fails)
- *  - height: number (px, banner height for aspect calculation)
- *  - className: string (optional extra wrapper class)
- * 
- * Usage:
- *   <BannerAd 
- *     href="mailto:contact@example.com"
- *     imgSrc="/banner.png"
- *     alt="Advertise with us"
- *     label="Contact Us"
- *   />
+ * Plays a looping autoplay video instead of an image.
  */
 
 export default function BannerAd({
   href = "mailto:contact@kaisportslive.com",
-  imgSrc = "/banner.png",
+  videoSrc = "/adspace.mp4",
   alt = "Advertise with KaiSportsLive",
   label = "Advertise / Contact Us",
   height = 90,
   className = ""
 }) {
-  const [imgError, setImgError] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   return (
     <div className={`banner-wrapper ${className}`}>
@@ -41,16 +26,16 @@ export default function BannerAd({
           rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
           aria-label={label}
         >
-          {!imgError ? (
-            <div className="banner-image-container">
-              <Image
-                src={imgSrc}
-                alt={alt}
-                fill
-                sizes="(max-width: 600px) 100vw, (max-width: 1000px) 90vw, 920px"
-                style={{ objectFit: "cover" }}
-                onError={() => setImgError(true)}
-                priority={false}
+          {!videoError ? (
+            <div className="banner-video-container">
+              <video
+                src={videoSrc}
+                autoPlay
+                loop
+                muted
+                playsInline
+                onError={() => setVideoError(true)}
+                className="banner-video"
               />
             </div>
           ) : (
@@ -90,17 +75,20 @@ export default function BannerAd({
             0 8px 24px -8px rgba(0, 0, 0, 0.5);
         }
 
-        .banner-image-container {
+        .banner-video-container {
           position: relative;
           width: 100%;
           height: ${height}px;
         }
 
-        .banner-image-container :global(img) {
-          transition: filter 0.5s;
+        .banner-video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
 
-        .banner-link:hover .banner-image-container :global(img) {
+        .banner-link:hover .banner-video {
           filter: brightness(1.08);
         }
 
@@ -129,7 +117,7 @@ export default function BannerAd({
             border-radius: 14px;
             min-height: ${Math.floor(height * 0.8)}px;
           }
-          .banner-image-container {
+          .banner-video-container {
             height: ${Math.floor(height * 0.8)}px;
           }
           .banner-fallback {
@@ -143,7 +131,7 @@ export default function BannerAd({
             border-radius: 12px;
             min-height: ${Math.floor(height * 0.7)}px;
           }
-          .banner-image-container {
+          .banner-video-container {
             height: ${Math.floor(height * 0.7)}px;
           }
           .banner-fallback {

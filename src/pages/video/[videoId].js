@@ -53,21 +53,21 @@ function sanitizeYouTube(url, origin) {
  */
 const rawVideoDefinitions = {
   video1: {
-    title: "Al Zawraa vs Al Nassr FC",
-    startTime: "2025-10-02T00:00:00+05:45",
+    title: "Fenerbahce vs Nice",
+    startTime: "2025-10-02T22:30:00+05:45",
     durationMinutes: 120,
-    defaultSource: "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
-      "https://www.youtube.com/em",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
       "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS"
     ],
-    tags: ["Saudi League", "Football", "Al Nassr", "Asian Champions League", "ACL"]
+    tags: ["Fenerbahce", "Nice", "Football", "Europaleague", "Ronaldo"]
   },
   video2: {
-    title: "Arsenal vs Olympiacos",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Roma vs Lille",
+    startTime: "2025-10-03T22:30:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -76,24 +76,24 @@ const rawVideoDefinitions = {
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://embedsports.top/embed/admin/ppv-arsenal-vs-olympiacos/1"
     ],
-    tags: ["UCL", "Football", "Arsenal", "Olympiacos"]
+    tags: ["Roma", "Football", "Lille", "Europaleague"]
   },
   video3: {
-    title: "Barcelona vs PSG",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Real Betis vs Razgrad",
+    startTime: "2025-10-02T22:30:00+05:45",
     durationMinutes: 120,
-    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?rel=0",
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://embedsports.top/embed/admin/ppv-barcelona-vs-paris/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/1",
       "ttps://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/4"
     ],
-    tags: ["Barcelona", "PSG", "UCL"]
+    tags: ["Realbetis", "Europaleague", "Football"]
   },
   video4: {
-    title: "Man City vs Monaco",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Dynamo Kyiv vs Crystal Palace",
+    startTime: "2025-10-02T22:30:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -102,37 +102,37 @@ const rawVideoDefinitions = {
       "https://embedsports.top/embed/admin/ppv-chelsea-vs-benfica/1",
       "https://embedsports.top/embed/alpha/chelsea-u19-vs-benfica-u19/1"
     ],
-    tags: ["Man City", "Monaco", "UCL"]
+    tags: ["CrystalPalace", "Live", "Football", "streamHD", "freestream", "conferenceleague"]
   },
   video5: {
-    title: "Juventus vs Villareal",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Feyenoord vs Aston Villa",
+    startTime: "2025-10-03T00:45:00+05:45",
     durationMinutes: 120,
-    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?rel=0",
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
-    tags: ["Juventus", "Villareal", "UCL"]
+    tags: ["Astonvilla", "Feyenoord", "UCL", "Live", "Football", "streamHD", "freestream"]
   },
   video6: {
-    title: "Napoli vs Sporting CP",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Arsenal vs Westham",
+    startTime: "2025-10-04T19:45:00+05:45",
     durationMinutes: 120,
-    defaultSource: "https://www.youtube.com/embed/zmTh-c1s6EI?rel=0",
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://embedsports.top/embed/admin/ppv-napoli-vs-sporting-cp/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://embedsports.top/embed/alpha/napoli-vs-sporting-cp/1"
     ],
-    tags: ["Napoli", "Sporting Lisbon", "UCL"]
+    tags: ["Arsenal", "Westham", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream"]
   },
   video7: {
-    title: "Dortmund vs Athletic Club",
-    startTime: "2025-10-02T00:45:00+05:45",
+    title: "Man United vs Sunderland",
+    startTime: "2025-10-04T19:45:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -141,8 +141,35 @@ const rawVideoDefinitions = {
       "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
       "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1"
     ],
-    tags: ["Dortmund", "Athletic Club", "UCL"]
-  }
+    tags: ["Manutd", "Sunderland", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
+  },
+video8: {
+    title: "Man United vs Sunderland",
+    startTime: "2025-10-04T19:45:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1",
+      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
+      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1"
+    ],
+    tags: ["Manutd", "Sunderland", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
+  },
+
+  video9: {
+    title: "Afghanistan vs Bangladesh",
+    startTime: "2025-10-02T20:45:00+05:45",
+    durationMinutes: 300,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
+      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS"
+    ],
+    tags: ["Bangladesh", "Cricket", "Afghanistan", "T20I", "ICC"]
+  },
 };
 
 /* ---------- STATUS HELPERS ---------- */

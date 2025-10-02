@@ -18,15 +18,19 @@ const SLIDE_INTERVAL = 5000;
  * durationMinutes = how long it's considered LIVE.
  */
 const slideSchedule = {
-  video1: {
+  video9: {
+    startTime: "2025-10-02T20:45:00+05:45",
+    durationMinutes: 300,
+  },
+  video7: {
     startTime: "2025-10-04T19:45:00+05:45",
     durationMinutes: 120,
   },
-  video3: {
-    startTime: "2025-10-02T00:45:00+05:45",
+  video8: {
+    startTime: "2025-10-04T19:45:00+05:45",
     durationMinutes: 120,
   },
-  video4: {
+  video6: {
     startTime: "2025-10-04T19:45:00+05:45",
     durationMinutes: 120,
   },
@@ -45,25 +49,33 @@ function computeStatus(id, now = new Date()) {
 
 const slides = [
   {
-    id: "video1",
-    title: "Arsenal Game",
-    tag: "#ACL",
-    img: "/arsenal.png",
-    alt: "Arsenal",
+    id: "video9",
+    title: "Afghanistan vs Bangladesh",
+    tag: "#Cricket, 1st T20I",
+    img: "/bang.png",
+    alt: "1st T20I",
   },
   {
-    id: "video3",
-    title: "Barcelona vs PSG",
-    tag: "#UCL",
-    img: "/bvp.png",
-    alt: "Barca vs PSG",
+    id: "video7",
+    title: "Man United vs Sunderland",
+    tag: "#Premier League",
+    img: "/united.png",
+    alt: "Manutd",
   },
   {
-    id: "video4",
+    id: "video8",
     title: "Liverpool vs Chelsea",
     tag: "#Premier League",
     img: "/livche.png",
     alt: "Liverpool and chelsea clash",
+  },
+
+{
+    id: "video6",
+    title: "Arsenal vs Westham",
+    tag: "#Premier League",
+    img: "/arsenal.png",
+    alt: "Arsenal game",
   },
 ];
 

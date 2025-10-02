@@ -10,11 +10,11 @@ import videoData from "@/pages/video/[videoId]"
 const categoryMatches = {
   cricket: [
     {
-      id: "video",
-      title: "Nepal vs West Indies",
-      subtitle: "3rd T20I",
-      time: "2025-09-30T20:15:00+05:45",
-      durationMinutes: 210,
+      id: "video9",
+      title: "Afghanistan vs Bangladesh",
+      subtitle: "1st T20I",
+      time: "2025-10-02T20:45:00+05:45",
+      durationMinutes: 300,
     },
   ],
   football: [
@@ -68,7 +68,7 @@ const categoryMatches = {
       durationMinutes: 120,
     },
     {
-      id: "video7",
+      id: "video8",
       title: "Liverpool vs Chelsea",
       subtitle: "Premier League",
       time: "2025-10-04T19:45:00+05:45",
