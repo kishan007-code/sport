@@ -24,7 +24,7 @@ export default function Footer() {
             <strong className="block-title">Get in Touch</strong>
             <p className="mini">
               xxxxxxx<br />
-              j@gmail.com<br />
+              joshijona119@gmail.com<br />
               Brussels, Belgium
             </p>
           </div>
