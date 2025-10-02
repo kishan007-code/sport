@@ -211,9 +211,13 @@ export default function CategoryPage() {
           <p className="tagline">Fast, lightweight fixture board. Live states & automatic endings.</p>
         </section>
 
-        <BannerAd />
-
-        <section className="list-section">
+<BannerAd
+  href="mailto:advertising@kaisportslive.com"
+  imgSrc="/banner.png"
+  alt="Advertise here"
+  label="Contact for Ad Space"
+  height={90}
+/>        <section className="list-section">
           <header className="list-header">
             <h2>Upcoming & Live</h2>
           </header>
@@ -244,8 +248,13 @@ export default function CategoryPage() {
           </ul>
         </section>
 
-        <BannerAd />
-
+<BannerAd
+  href="mailto:advertising@kaisportslive.com"
+  imgSrc="/banner.png"
+  alt="Advertise here"
+  label="Contact for Ad Space"
+  height={90}
+/>
         <section className="about centered">
           <h3>About</h3>
           <p>
