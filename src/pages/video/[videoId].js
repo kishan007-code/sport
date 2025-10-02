@@ -164,9 +164,9 @@ video8: {
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS",
-      "https://www.youtube.com/embed/znmw_lOWnaA?si=kh52kloywdJWItdS"
+      "https://embedsports.top/embed/alpha/afghanistan-vs-bangladesh/2",
+      "https://embedsports.top/embed/alpha/afghanistan-vs-bangladesh/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
     tags: ["Bangladesh", "Cricket", "Afghanistan", "T20I", "ICC"]
   },
