@@ -328,7 +328,7 @@ export default function VideoPage() {
     if (status !== "LIVE" || !video) return null;
     const start = new Date(video.startTime);
     if (isNaN(start.getTime())) return null;
-    return `${Math.floor((now - start) / 60000)}m`;
+    return `${Math.floor((now - start) / 60000)}'`;
   }, [status, video, now]);
 
   const shareCopy = useCallback(() => {

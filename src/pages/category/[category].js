@@ -286,7 +286,7 @@ Contact us for any takedowns.
           display: inline-flex;
           width: 76px;
           height: 76px;
-          border: 2px solid rgba(52, 51, 51, 0.12);
+          border: 2px solid rgba(232, 226, 226, 0.8);
           border-radius: 30px;
           align-items: center;
           justify-content: center;
@@ -297,7 +297,7 @@ Contact us for any takedowns.
         }
         .hero-icon {
           font-size: 44px;
-          animation: gentle-pulse 3.6s infinite;
+          animation: gentle-pulse 1.6s infinite;
         }
         @keyframes float {
           0%,100% { transform: translateY(0); }
