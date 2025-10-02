@@ -67,10 +67,15 @@ export default function Header() {
         {/* ---------- Center: Navigation ---------- */}
         <nav className="header-center">
           <button className="nav-link">Sign In</button>
-          <button className="nav-link">About Us</button>
+         <Link href="/about" legacyBehavior>
+  <a className="nav-link">About us</a>
+</Link>
           <Link href="/contact" legacyBehavior>
   <a className="nav-link">Contact</a>
 </Link>
+ <Link href="/advertise" legacyBehavior>
+    <a className="nav-link">Advertise with Us</a>
+  </Link>
 
         </nav>
 
@@ -101,10 +106,16 @@ export default function Header() {
             ×
           </button>
           <button className="mobile-link">Sign In</button>
-          <button className="mobile-link">About Us</button>
+           <Link href="/about" legacyBehavior>
+  <a className="mobile-link">About us</a>
+</Link>
          <Link href="/contact" legacyBehavior>
   <a className="mobile-link">Contact</a>
 </Link>
+<Link href="/advertise" legacyBehavior>
+  <a className="mobile-link">Advertise with Us</a>
+</Link>
+
         </div>
       )}
   

@@ -54,6 +54,11 @@ export default function ContactPage() {
             Stay updated with the latest sports streaming schedules and links by contacting us through email. We strive to provide you with the best service possible!
           </p>
         </section>
+        <div className="divider" aria-hidden="true" />
+        <div className="foot-note">
+          ©2026 kaisenberg
+        </div>
+      
       </main>
 
       {/* ---------- Styles ---------- */}
@@ -116,6 +121,22 @@ export default function ContactPage() {
 
         a:hover {
           color: #ff0000ff;
+        }
+
+ .divider {
+          width: 100%;
+          height: 1px;
+          margin: 40px 0 24px;
+        }
+        .foot-note {
+          text-align: center;
+          font-size: .75rem;
+          letter-spacing: .8px;
+        }
+        @media (max-width: 680px) {
+          .footer { padding: 12px 0px 16px; }
+          .social-icons { gap: 14px; }
+          .social-icons a { width: 36px; height: 36px; }
         }
       `}</style>
     </div>
