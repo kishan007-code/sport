@@ -139,6 +139,12 @@ export default function Header() {
   filter: drop-shadow(0 0 7px rgba(0, 0, 0, 0.46));
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
         .logo-link { display: inline-flex; align-items: center; height: auto; width: auto; max-height: 40px; }
 .logo-link:hover{
     transform: scale(1.2);
@@ -149,18 +155,22 @@ transition: 0.2s ease-in;}
           gap: 26px;
           align-items: center;
           font-family: "Cambria", Georgia, serif;
+          font:inherit;
         }
+          
         .nav-link {
           background: none;
           border: none;
           font-size: .95rem;
-          font-weight: 700;
+          font-weight: 800;
           letter-spacing: .6px;
           color: #ff5757;
           cursor: pointer;
           position: relative;
           padding: 4px 2px;
           transition: color .35s;
+                    font-family: "Cambria", Georgia, serif;
+
         }
         .nav-link::after {
           content: '';
@@ -171,6 +181,7 @@ transition: 0.2s ease-in;}
           width: 0;
           background: linear-gradient(90deg,#ff5757,#27d507);
           transition: width .4s;
+          font:inherit;
         }
         .nav-link:hover {
           color: #2dd10b;

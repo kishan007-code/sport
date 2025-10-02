@@ -67,7 +67,7 @@ const rawVideoDefinitions = {
   },
   video2: {
     title: "Roma vs Lille",
-    startTime: "2025-10-03T22:30:00+05:45",
+    startTime: "2025-10-02T22:30:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources:[ 

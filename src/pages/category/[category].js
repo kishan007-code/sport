@@ -29,7 +29,7 @@ const categoryMatches = {
       id: "video2",
       title: "Roma vs Lille",
       subtitle: "Europa League",
-      time: "2025-10-03T22:30:00+05:45",
+      time: "2025-10-02T22:30:00+05:45",
       durationMinutes: 120,
     },
      {
