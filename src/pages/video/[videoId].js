@@ -52,9 +52,9 @@ function sanitizeYouTube(url, origin) {
  * Keep raw definitions; sanitation done at runtime.
  */
 const rawVideoDefinitions = {
-  video11: {
-    title: "Dortmund vs RB Leipzig",
-    startTime: "2025-10-04T19:15:00+05:45",
+  video1: {
+    title: "Inter vs Cremonese",
+    startTime: "2025-10-04T21:45:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -120,41 +120,41 @@ const rawVideoDefinitions = {
   video6: {
     title: "Arsenal vs Westham",
     startTime: "2025-10-04T19:45:00+05:45",
-    durationMinutes: 120,
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/admin/ppv-napoli-vs-sporting-cp/1",
+      "https://embedsports.top/embed/admin/ppv-arsenal-vs-west-ham-united/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/alpha/napoli-vs-sporting-cp/1"
+      "https://embedsports.top/embed/alpha/arsenal-vs-west-ham-united/2",
+      "https://embedsports.top/embed/admin/ppv-arsenal-vs-west-ham-united/1"
     ],
     tags: ["Arsenal", "Westham", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream"]
   },
   video7: {
     title: "Man United vs Sunderland",
     startTime: "2025-10-04T19:45:00+05:45",
-    durationMinutes: 120,
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1",
-      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
-      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1"
+      "https://embedsports.top/embed/admin/ppv-manchester-united-vs-sunderland/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/alpha/manchester-united-vs-sunderland/2",
+      "https://embedsports.top/embed/alpha/manchester-united-vs-sunderland/7"
     ],
     tags: ["Manutd", "Sunderland", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
   },
 video8: {
-    title: "Man United vs Sunderland",
+    title: "Liverpool vs Chelsea",
     startTime: "2025-10-04T19:45:00+05:45",
-    durationMinutes: 120,
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1",
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-liverpool/1",
       "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
-      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-athletic-club/1"
+      "https://embedsports.top/embed/alpha/chelsea-vs-liverpool/2",
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-liverpool/1"
     ],
-    tags: ["Manutd", "Sunderland", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
+    tags: ["Liverpool", "Chelsea", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
   },
 
   video9: {
@@ -169,6 +169,21 @@ video8: {
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
     tags: ["Bangladesh", "Cricket", "Afghanistan", "T20I", "ICC"]
+  },
+
+
+  video11: {
+    title: "Dortmund vs RB Leipzig",
+    startTime: "2025-10-04T19:15:00+05:45",
+    durationMinutes: 120,
+    defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+    gameSources: [
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
+      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/6"
+    ],
+    tags: ["Dortmund", "Leipzig", "Football", "SerieA", "Ronaldo"]
   },
 };
 
