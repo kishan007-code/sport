@@ -52,18 +52,18 @@ function sanitizeYouTube(url, origin) {
  * Keep raw definitions; sanitation done at runtime.
  */
 const rawVideoDefinitions = {
-  video1: {
-    title: "Fenerbahce vs Nice",
-    startTime: "2025-10-02T22:30:00+05:45",
+  video11: {
+    title: "Dortmund vs RB Leipzig",
+    startTime: "2025-10-04T19:15:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/1",
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/1",
+      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
       "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/6"
     ],
-    tags: ["Fenerbahce", "Nice", "Football", "Europaleague", "Ronaldo"]
+    tags: ["Dortmund", "Leipzig", "Football", "SerieA", "Ronaldo"]
   },
   video2: {
     title: "Roma vs Lille",
@@ -79,17 +79,17 @@ const rawVideoDefinitions = {
     tags: ["Roma", "Football", "Lille", "Europaleague"]
   },
   video3: {
-    title: "Real Betis vs Razgrad",
-    startTime: "2025-10-02T22:30:00+05:45",
+    title: "Bayer Leverkushen vs Union Berlin",
+    startTime: "2025-10-04T19:15:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/admin/ppv-ludogorets-vs-real-betis/1",
+      "https://embedsports.top/embed/admin/ppv-leverkusen-vs-union-berlin/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/alpha/ludogorets-razgrad-vs-real-betis/1",
-      "ttps://embedsports.top/embed/alpha/barcelona-vs-paris-saint-germain/4"
+      "https://embedsports.top/embed/admin/ppv-leverkusen-vs-union-berlin/1",
+      "https://embedsports.top/embed/admin/ppv-leverkusen-vs-union-berlin/1"
     ],
-    tags: ["Realbetis", "Europaleague", "Football"]
+    tags: ["leverkusen", "SerieA", "Football", "Unionberlin"]
   },
   video4: {
     title: "Dynamo Kyiv vs Crystal Palace",

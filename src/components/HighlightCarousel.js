@@ -19,7 +19,7 @@ const SLIDE_INTERVAL = 5000;
  */
 const slideSchedule = {
   video9: {
-    startTime: "2025-10-02T20:45:00+05:45",
+    startTime: "2025-10-05T20:15:00+05:45",
     durationMinutes: 300,
   },
   video7: {
@@ -51,9 +51,9 @@ const slides = [
   {
     id: "video9",
     title: "Afghanistan vs Bangladesh",
-    tag: "#Cricket, 1st T20I",
+    tag: "#Cricket, 3rd T20I",
     img: "/bang.png",
-    alt: "1st T20I",
+    alt: "3rd T20I",
   },
   {
     id: "video7",

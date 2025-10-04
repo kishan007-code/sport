@@ -6,7 +6,14 @@ return(
   <div className="top-nav">
     <Link href="/" legacyBehavior>
       <a className="home-logo">
-        <img src="/kbergwhite2.png" alt="KaiSports Logo" />
+        <Image
+                        src="/kbergwhite2.png"
+                        alt="Logo"
+                        className="logo"
+                        width={170}
+                        height={32}
+                        priority
+                      />     
       </a>
     </Link>
     <h1 className="page-title">⚽ About Us</h1>
@@ -33,8 +40,8 @@ return(
       </p>
       <p>
         Here, we curate reliable live match links 🖥, deliver fresh previews 📝, and soon, 
-        we’ll bring in sharp post-match analysis that goes beyond the scoreline. 
-        Because sport isn’t just about who wins; it’s about <em>why</em> they won.
+        we will bring in sharp post-match analysis that goes beyond the scoreline. 
+        Because sport is not just about who wins; it is about <em>why</em> they won.
       </p>
     </div>
 
@@ -53,13 +60,13 @@ return(
     <div className="about-block">
       <h2>Looking Ahead 🌠</h2>
       <p>
-        This is just the beginning. In the coming weeks, we’re rolling out a full-fledged 
+        This is just the beginning. In the coming weeks, we are rolling out a full-fledged 
         <strong>News & Blog</strong> section to bring fans daily stories, quick analyses, and match insights.  
-        We’re not just building a website — we’re building a <em>sports universe</em>. 
-        And if you’re here, you’re already part of it.
+        We are not just building a website — we are building a <em>sports universe</em>. 
+        And if you are here, you are already part of it.
       </p>
       <p>
-        ✨ Stay tuned. Share it with your squad. Let’s change how sports fans experience the game — together.
+        ✨ Stay tuned. Share it with your squad. Lets change how sports fans experience the game — together.
       </p>
     </div>
   </div>
