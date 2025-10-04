@@ -18,20 +18,21 @@ const SLIDE_INTERVAL = 5000;
  * durationMinutes = how long it's considered LIVE.
  */
 const slideSchedule = {
-  video9: {
+ 
+  video00: {
+    startTime: "2025-10-05T05:15:00+05:45",
+    durationMinutes: 120,
+  },
+   video9: {
     startTime: "2025-10-05T20:15:00+05:45",
     durationMinutes: 300,
-  },
-  video7: {
-    startTime: "2025-10-04T19:45:00+05:45",
-    durationMinutes: 120,
   },
   video8: {
     startTime: "2025-10-04T22:15:00+05:45",
     durationMinutes: 120,
   },
-  video6: {
-    startTime: "2025-10-04T19:45:00+05:45",
+  video4: {
+    startTime: "2025-10-05T00:45:00+05:45",
     durationMinutes: 120,
   },
 };
@@ -48,34 +49,35 @@ function computeStatus(id, now = new Date()) {
 }
 
 const slides = [
+  
+  {
+    id: "video00",
+    title: "Inter Miami vs New England FC",
+    tag: "#MLS",
+    img: "/miami.png",
+    alt: "KaiseliveMIAMI",
+  },
   {
     id: "video9",
     title: "Afghanistan vs Bangladesh",
-    tag: "#Cricket, 3rd T20I",
+    tag: "#Cricket||3rd T20I",
     img: "/bang.png",
     alt: "3rd T20I",
   },
   {
-    id: "video7",
-    title: "Man United vs Sunderland",
-    tag: "#Premier League",
-    img: "/united.png",
-    alt: "Manutd",
-  },
-  {
     id: "video8",
     title: "Liverpool vs Chelsea",
-    tag: "#Premier League",
+    tag: "#PremierLeague",
     img: "/livche.png",
     alt: "Liverpool and chelsea clash",
   },
 
 {
-    id: "video6",
-    title: "Arsenal vs Westham",
-    tag: "#Premier League",
-    img: "/arsenal.png",
-    alt: "Arsenal game",
+    id: "video4",
+    title: "Real Madrid vs Villareal",
+    tag: "#LaliGa",
+    img: "/madrid.png",
+    alt: "Madrid game",
   },
 ];
 
@@ -364,7 +366,7 @@ export default function HeroCarousel() {
           letter-spacing: 0.5px;
           background: linear-gradient(90deg, #ffffff, #d4dde6);
           -webkit-background-clip: text;
-          color: white;
+          color: #50ffe8f2;
           font-family: "Times New Roman", serif;
           text-shadow: 0 6px 38px rgba(0, 0, 0, 0.92);
         }
