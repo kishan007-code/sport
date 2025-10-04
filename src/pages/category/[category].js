@@ -58,14 +58,14 @@ const categoryMatches = {
       title: "Liverpool vs Chelsea",
       subtitle: "Premier League",
       time: "2025-10-04T20:15:00+05:45",
-      durationMinutes: 120,
+      durationMinutes: 140,
     },
     {
       id: "video1",
       title: "Inter vs Cremonese",
       subtitle: "Serie A",
-      time: "2025-10-04T23:45:00+05:45",
-      durationMinutes: 120,
+      time: "2025-10-04T21:45:00+05:45",
+      durationMinutes: 140,
     },
     {
       id: "video2",

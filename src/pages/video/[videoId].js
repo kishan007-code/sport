@@ -55,13 +55,13 @@ const rawVideoDefinitions = {
   video1: {
     title: "Inter vs Cremonese",
     startTime: "2025-10-04T21:45:00+05:45",
-    durationMinutes: 120,
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
+      "https://embedsports.top/embed/admin/ppv-inter-vs-cremonese/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/alpha/borussia-dortmund-vs-rb-leipzig/5",
-      "https://embedsports.top/embed/alpha/fenerbahce-vs-nice/6"
+      "https://embedsports.top/embed/admin/ppv-inter-vs-cremonese/1",
+      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
     tags: ["Dortmund", "Leipzig", "Football", "SerieA", "Ronaldo"]
   },
@@ -92,8 +92,8 @@ const rawVideoDefinitions = {
     tags: ["leverkusen", "SerieA", "Football", "Unionberlin"]
   },
   video4: {
-    title: "Dynamo Kyiv vs Crystal Palace",
-    startTime: "2025-10-02T22:30:00+05:45",
+    title: "Real Madrid vs Villareal",
+    startTime: "2025-10-05T00:45:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -145,7 +145,7 @@ const rawVideoDefinitions = {
   },
 video8: {
     title: "Liverpool vs Chelsea",
-    startTime: "2025-10-04T19:45:00+05:45",
+    startTime: "2025-10-04T22:15:00+05:45",
     durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
