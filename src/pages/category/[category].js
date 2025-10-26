@@ -10,35 +10,59 @@ import videoData from "@/pages/video/[videoId]"
 const categoryMatches = {
   cricket: [
     {
+      id: "video00",
+      title: "Nepal vs USA",
+      subtitle: "ICC League 2",
+      time: "2025-10-26T11:15:00+05:45",
+      durationMinutes: 400,
+    },
+    /**{
       id: "video9",
-      title: "Afghanistan vs Bangladesh",
+      title: "Nepal vs Kuwait",
       subtitle: "World T20 Qualifier",
       time: "2025-10-08T20:45:00+05:45",
       durationMinutes: 300,
-    },
-     {
-      id: "video10",
-      title: "Nepal vs Kuwait",
-      subtitle: "3rd T20I",
-      time: "2025-10-05T20:15:00+05:45",
-      durationMinutes: 300,
-    },
+    }**/
   ],
   football: [
     {
-      id: "video11",
-      title: "Dortmund vs RB Leipzig",
-      subtitle: "Bundesliga",
-      time: "2025-10-04T19:15:00+05:45",
-      durationMinutes: 100,
+      id: "video1",
+      title: "Man City vs Aston Villa",
+      subtitle: "Premier League",
+      time: "2025-10-26T19:45:00+05:45",
+      durationMinutes: 130,
+    },
+    {
+      id: "video2",
+      title: "Bournemouth vs Nottm Forest",
+      subtitle: "Premier League",
+      time: "2025-10-26T19:45:00+05:45",
+      durationMinutes: 130,
     },
      {
       id: "video3",
-      title: "Bayer Leverkushen vs Union Berlin",
-      subtitle: "Bundesliga",
-      time: "2025-10-04T19:15:00+05:45",
+      title: "Everton vs Tottenham",
+      subtitle: "Premier League",
+      time: "2025-10-26T22:15:00+05:45",
+      durationMinutes: 130,
+    },
+    {
+      id: "video4",
+      title: "Real Madrid vs Barcelona",
+      subtitle: "Laliga",
+      time: "2025-10-26T21:00:00+05:45",
       durationMinutes: 120,
     },
+
+    
+     {
+      id: "video5",
+      title: "Arsenal vs Crystal Palace",
+      subtitle: "Premier League",
+      time: "2025-10-26T19:15:00+05:45",
+      durationMinutes: 130,
+    },
+    /*
      {
       id: "video6",
       title: "Arsenal vs Westham",
@@ -60,34 +84,13 @@ const categoryMatches = {
       time: "2025-10-04T22:15:00+05:45",
       durationMinutes: 125,
     },
-    {
-      id: "video1",
-      title: "Inter vs Cremonese",
-      subtitle: "Serie A",
-      time: "2025-10-04T21:45:00+05:45",
-      durationMinutes: 130,
-    },
-    {
-      id: "video2",
-      title: "Bayern vs Frankfurt",
-      subtitle: "Bundesliga",
-      time: "2025-10-04T22:00:00+05:45",
-      durationMinutes: 120,
-    },
     
      {
-      id: "video4",
-      title: "Real Madrid vs Villarreal",
-      subtitle: "Laliga",
-      time: "2025-10-05T00:45:00+05:45",
-      durationMinutes: 120,
-    },
-     {
-      id: "video00",
-      title: "Inter Miami vs New England",
-      subtitle: "MLS",
-      time: "2025-10-05T05:15:00+05:45",
-      durationMinutes: 120,
+      id: "video11",
+      title: "Dortmund vs RB Leipzig",
+      subtitle: "Bundesliga",
+      time: "2025-10-04T19:15:00+05:45",
+      durationMinutes: 100,
     },
   {
       id: "video12",
@@ -124,13 +127,6 @@ const categoryMatches = {
       time: "2025-10-05T18:45:00+05:45",
       durationMinutes: 120,
     },
-     {
-      id: "video5",
-      title: "Barcelona vs Sevilla",
-      subtitle: "Laliga",
-      time: "2025-10-05T20:00:00+05:45",
-      durationMinutes: 120,
-    },
     {
       id: "video17",
       title: "Napoli vs Genoa",
@@ -138,6 +134,7 @@ const categoryMatches = {
       time: "2025-10-05T21:45:00+05:45",
       durationMinutes: 120,
     },
+     */
    
   ],
 };

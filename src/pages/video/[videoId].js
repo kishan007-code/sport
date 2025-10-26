@@ -53,9 +53,9 @@ function sanitizeYouTube(url, origin) {
  */
 const rawVideoDefinitions = {
   video1: {
-    title: "Inter vs Cremonese",
-    startTime: "2025-10-04T21:45:00+05:45",
-    durationMinutes: 140,
+    title: "Man City vs Aston Villa",
+    startTime: "2025-10-26T19:45:00+05:45",
+    durationMinutes: 130,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://embedsports.top/embed/admin/ppv-inter-vs-cremonese/1",
@@ -63,11 +63,11 @@ const rawVideoDefinitions = {
       "https://embedsports.top/embed/admin/ppv-inter-vs-cremonese/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
-    tags: ["InterMilan", "Cremonese", "Football", "SerieA", "Ronaldo"]
+    tags: ["ManCity", "Villa", "Football", "Premierleague", "Kaishenberg"]
   },
   video2: {
-    title: "Bayern vs Frankfurt",
-    startTime: "2025-10-04T22:15:00+05:45",
+    title: "Bournemouth vs Nottm Forest",
+    startTime: "2025-10-26T19:45:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources:[ 
@@ -76,11 +76,11 @@ const rawVideoDefinitions = {
       "https://embedsports.top/embed/admin/ppv-frankfurt-vs-bayern/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
-    tags: ["Bayern", "Football", "Frankfurt", "Europaleague"]
+    tags: ["Bournemouth", "Football", "NottmForest", "Premierleague"]
   },
   video3: {
-    title: "Bayer Leverkushen vs Union Berlin",
-    startTime: "2025-10-04T19:15:00+05:45",
+    title: "Everton vs Tottenham",
+    startTime: "2025-10-26T22:15:00+05:45",
     durationMinutes: 120,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -89,12 +89,12 @@ const rawVideoDefinitions = {
       "https://embedsports.top/embed/admin/ppv-leverkusen-vs-union-berlin/1",
       "https://embedsports.top/embed/admin/ppv-leverkusen-vs-union-berlin/1"
     ],
-    tags: ["leverkusen", "SerieA", "Football", "Unionberlin"]
+    tags: ["Everton", "Tottenham", "Football", "premierleague"]
   },
   video4: {
-    title: "Real Madrid vs Villareal",
-    startTime: "2025-10-05T00:45:00+05:45",
-    durationMinutes: 120,
+    title: "Real Madrid vs Barcelona",
+    startTime: "2025-10-26T21:00:00+05:45",
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
       "https://embedsports.top/embed/admin/ppv-real-madrid-vs-villarreal-cf/1",
@@ -105,17 +105,17 @@ const rawVideoDefinitions = {
     tags: ["Madrid", "Live", "Football", "streamHD", "freestream", "conferenceleague"]
   },
   video5: {
-    title: "Feyenoord vs Aston Villa",
-    startTime: "2025-10-03T00:45:00+05:45",
-    durationMinutes: 120,
+    title: "Arsenal vs Crystal Palace",
+    startTime: "2025-10-26T19:45:00+05:45",
+    durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-liverpool/1",
+      "https://www.youtube.com/embed/znmw_lOWnaA?rel=0",
+      "https://embedsports.top/embed/alpha/chelsea-vs-liverpool/2",
+      "https://embedsports.top/embed/admin/ppv-chelsea-vs-liverpool/1"
     ],
-    tags: ["Astonvilla", "Feyenoord", "UCL", "Live", "Football", "streamHD", "freestream"]
+    tags: ["Arsenal", "CrystalPalace", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
   },
   video6: {
     title: "Arsenal vs Westham",
@@ -144,8 +144,8 @@ const rawVideoDefinitions = {
     tags: ["Manutd", "Sunderland", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
   },
 video8: {
-    title: "Liverpool vs Chelsea",
-    startTime: "2025-10-04T22:15:00+05:45",
+    title: "Arsenal vs Crystal Palace",
+    startTime: "2025-10-26T19:45:00+05:45",
     durationMinutes: 140,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
@@ -154,7 +154,7 @@ video8: {
       "https://embedsports.top/embed/alpha/chelsea-vs-liverpool/2",
       "https://embedsports.top/embed/admin/ppv-chelsea-vs-liverpool/1"
     ],
-    tags: ["Liverpool", "Chelsea", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
+    tags: ["Arsenal", "CrystalPalace", "Premierleague", "Live", "livetoday", "livematchtoday", "Football", "streamHD", "freestream" ]
   },
 
   video9: {
@@ -186,8 +186,8 @@ video8: {
     tags: ["Dortmund", "Leipzig", "Football", "SerieA", "Ronaldo"]
   },
   video00: {
-    title: "Sorry",
-    durationMinutes: 120,
+    title: "Nepal vs USA",
+    durationMinutes: 400,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
        "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
@@ -195,7 +195,7 @@ video8: {
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
-    tags: ["Dortmund", "Leipzig", "Football", "SerieA", "Ronaldo"]
+    tags: ["Cricket", "Nepal", "USA", "ICC", "Kaisenberg"]
   },
 };
 

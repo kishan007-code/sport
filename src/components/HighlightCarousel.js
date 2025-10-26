@@ -52,32 +52,32 @@ const slides = [
   
   {
     id: "video00",
-    title: "Inter Miami vs New England FC",
-    tag: "#MLS",
-    img: "/miami.png",
-    alt: "KaiseliveMIAMI",
+    title: "Nepal vs USA",
+    tag: "#Cricket",
+    img: "/nepvus.png",
+    alt: "KaiseliveNEPVUS",
   },
-  {
+  /*{
     id: "video9",
     title: "Afghanistan vs Bangladesh",
     tag: "#Cricket||3rd T20I",
     img: "/bang.png",
     alt: "3rd T20I",
-  },
+  },*/
   {
-    id: "video8",
-    title: "Liverpool vs Chelsea",
+    id: "video5",
+    title: "Arsenal vs Crystal Palace",
     tag: "#PremierLeague",
-    img: "/livche.png",
-    alt: "Liverpool and chelsea clash",
+    img: "/arsenal.png",
+    alt: "Arsenal and Palace clash",
   },
 
 {
     id: "video4",
-    title: "Real Madrid vs Villareal",
+    title: "Real Madrid vs Barcelona",
     tag: "#LaliGa",
-    img: "/madrid.png",
-    alt: "Madrid game",
+    img: "/classico.png",
+    alt: "ELCLASSICO game",
   },
 ];
 
