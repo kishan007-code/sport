@@ -187,12 +187,13 @@ video8: {
   },
   video00: {
     title: "Nepal vs USA",
+    startTime: "2025-10-04T11:15:00+05:45",
     durationMinutes: 400,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
        "https://embedsports.top/embed/charlie/nepal-vs-usa-1629466334/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://embedsports.top/embed/charlie/nepal-vs-usa-1629466334/1",
+      "https://www.youtube.com/live/5WqoYJr7ZqI?si=ngfPfT6mJn_WVoJT",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
     tags: ["Cricket", "Nepal", "USA", "ICC", "Kaisenberg"]
