@@ -20,19 +20,19 @@ const SLIDE_INTERVAL = 5000;
 const slideSchedule = {
  
   video00: {
-    startTime: "2025-10-05T05:15:00+05:45",
-    durationMinutes: 120,
+    startTime: "2025-10-26T11:15:00+05:45",
+    durationMinutes: 400,
   },
    video9: {
-    startTime: "2025-10-05T20:15:00+05:45",
+    startTime: "2025-10-26T20:15:00+05:45",
     durationMinutes: 300,
   },
-  video8: {
-    startTime: "2025-10-04T22:15:00+05:45",
+  video5: {
+    startTime: "2025-10-26T19:45:00+05:45",
     durationMinutes: 120,
   },
   video4: {
-    startTime: "2025-10-05T00:45:00+05:45",
+    startTime: "2025-10-26T21:00:00+05:45",
     durationMinutes: 120,
   },
 };
