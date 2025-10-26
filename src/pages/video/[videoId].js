@@ -190,9 +190,9 @@ video8: {
     durationMinutes: 400,
     defaultSource: "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
     gameSources: [
-       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+       "https://embedsports.top/embed/charlie/nepal-vs-usa-1629466334/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
-      "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX",
+      "https://embedsports.top/embed/charlie/nepal-vs-usa-1629466334/1",
       "https://www.youtube.com/embed/CLCtx00Ei50?si=XRHQz8Zwvc9PLoXX"
     ],
     tags: ["Cricket", "Nepal", "USA", "ICC", "Kaisenberg"]
